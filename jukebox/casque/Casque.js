@@ -1,8 +1,8 @@
-const FileSystemUtils = require("../../utils/FileSystemUtils");
 const fs = require("fs");
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http , { wsEngine: 'ws' , pingInterval:1000});
+const CasqueModel = require('jukebox-js-libs/CasqueModel');
 
 let canUseSynchro = true;
 
@@ -19,9 +19,10 @@ let ServerMessage=function(){
     this.msg = "default";
 };
 
-class Casque {
+class Casque extends CasqueModel{
 
     constructor(identifier, deviceId) {
+        super(identifier, deviceId);
 
         let me=this;
 
@@ -30,89 +31,14 @@ class Casque {
         Casque.allByIdentifier[identifier] = this;
 
         /**
-         * Identifiant du casque
-         * @type {string}
-         */
-        this.identifier = identifier;
-        /**
-         * Identifiant adb
-         * @type {string}
-         */
-        this.deviceId = deviceId;
-
-        /**
-         * Liste des fichiers présents sur le casque
-         * @type {String[]}
-         * @private
-         */
-        this._files = null;
-
-        /**
-         * Identifiant socket du casque
-         * @type {int}
-         */
-        this.sockID = 0;
-
-
-        /**
-         * Contenu en cours de lecture
-         * @type {ContenuModel}
-         */
-        this.contenu = null;
-
-        /**
-         * position de lecture en secondes
-         * @type {number}
-         */
-        this.playTime = 0;
-
-        /**
-         * Duréen en seconde de la lecture
-         * @type {number}
-         */
-        this.totalTime = 120;
-
-        /**
-         * Niveau de batterie de 0 à 100
-         * @type {number}
-         */
-        this.batteryLevel = 0;
-        /**
-         * Est en cours de charge ou non
-         * @type {boolean}
-         */
-        this.isCharging = true;
-        /**
-         * Si true le casque est connecté en ADB
-         * @type {boolean}
-         */
-        this.adbConnected=false;
-        /**
-         * Si > 0 c'est que le socket semble fonctionner
-         * @type {int}
-         */
-        this.socketConnected=0;
-
-
-        /**
-         * true si tous les fichiers sont copiés sur le casque
-         * @type {boolean}
-         */
-        this.isSyncro=false;
-
-
-        /**
          * true si un ou des fichiers sont en cours de copie
          * @type {boolean}
          */
         this.isSynchroBusy=false;
 
-
-
-
-
         this.$el = null;
         this.$battery = null;
+        this.$batteryLevelSize = null;
         this.$batteryText = null;
         this.$playCurrent = null;
         this.$playTotal = null;
@@ -130,6 +56,7 @@ class Casque {
         me.$el.attr("data-casque", me.identifier);
         me.$el.find(".identifier").text(me.identifier);
         this.$battery = me.$el.find(".battery");
+        this.$batteryLevelSize = me.$el.find(".battery .level .level-size");
         this.$batteryText = me.$el.find(".battery .text");
         this.$playTotal = me.$el.find(".play-total-time");
         this.$playCurrent = me.$el.find(".play-current-time");
@@ -151,18 +78,11 @@ class Casque {
             me.refreshDisplay();
         }, 100);
 
-        /**
-         *
-         * @type {mixed}
-         */
-        this.adbClient = null;
-
         if(Casque.isTestingMode){
             me.adbConnected=true;
             me.socketConnected=2000;
             me.isSyncro=true;
         }
-
 
     }
 
@@ -218,10 +138,7 @@ class Casque {
      * @private
      */
     _fileExists(file){
-
-            return this._files.indexOf(file)> -1;
-
-
+       return this._files.indexOf(file)> -1;
     }
 
 
@@ -230,14 +147,11 @@ class Casque {
      * @private
      */
     _adbPushFile(filePath, onProgress, onComplete){
-
         let me=this;
-
         if(!this._fileExists(filePath)){
             console.log("copie "+filePath + "sur " + me.deviceId);
             console.log("File exist pas !");
             me.isSynchroBusy=true;
-
             Casque.adbClient.push(me.deviceId, window.machine.appStoragePath+"/"+filePath,'/sdcard/Download/'+filePath)
                 .then(function (transfer) {
                     return new Promise(function (resolve, reject) {
@@ -264,8 +178,6 @@ class Casque {
             me.isSynchroBusy=false;
             canUseSynchro = true;
         }
-
-
     }
 
     /**
@@ -311,14 +223,6 @@ class Casque {
     }
 
 
-
-    static _testFake(){
-        setInterval(function(){
-            for (let idx in Casque.all) {
-                Casque.all[idx]._fakeData();
-            }
-        },1000);
-    }
     /**
      *
      * Génère de fausses données pour tester
@@ -355,7 +259,7 @@ class Casque {
              this.totalTime=Math.round(60+Math.random()*(60*2));
              }
              */
-            this.playTime += 1 / 10;
+            this.playTime += 1;
             this.playTime = Math.min(this.totalTime, this.playTime);
 
         }
@@ -441,6 +345,11 @@ class Casque {
         }else{
             this.$el.addClass("disabled");
         }
+        if(this.contenu){
+            this.$el.addClass("has-contenu");
+        }else{
+            this.$el.removeClass("has-contenu");
+        }
 
     }
 
@@ -457,6 +366,7 @@ class Casque {
         }
         this.$batteryText.text(level + "%");
         this.$battery.attr("data-level", Math.round(level / 10) * 10);
+        this.$batteryLevelSize.css("height",""+level+"%");
     }
 
     /**
@@ -464,7 +374,7 @@ class Casque {
      * @private
      */
     displayPlayProgress() {
-        this.$playTotal.text(Casque.toHHMMSS(this.totalTime, false));
+        this.$playTotal.text(Casque.toMM(this.totalTime, false));
         this.$playCurrent.text(Casque.toHHMMSS(this.playTime, false));
         this.$playProgress.css("width", "" + (100 / this.totalTime * this.playTime) + "%")
     }
@@ -516,6 +426,15 @@ class Casque {
 
         return r.join(":");
     }
+    /**
+     * Convertit des secondes en Minutes
+     * @private
+     * @returns {string}
+     */
+    static toMM(timeSeconds, h = true, m = true, s = true) {
+        return Math.round(timeSeconds / 60);
+    }
+
 
     //-----------------statiques---------------------------------------
 
@@ -923,8 +842,26 @@ class Casque {
 
     /**
      * Lance la commande de lecture sur tous les casques selectionnés
+     * @param {string|int} duration soit la durée en secondes, soit "loop" soit rien pour jouer une seule fois.
      */
-    static playAllSelected(){
+    static playAllSelected(duration){
+        //todo victor prendre en charge le paramètre duration
+        switch (duration) {
+            case "":
+                alert("Victor jouer une seule fois");
+                break;
+            case "loop":
+                alert("Victor jouer en boucle");
+                break;
+            default:
+                if(isNaN(duration / 2) ){
+                    alert("Victor "+duration+" pas pris en charge");
+                }else{
+                    alert("Victor jouer pendant "+duration+" secondes");
+                }
+
+                break;
+        }
         let numeros=[];
         for(let i in Casque.selecteds() ){
             let casque=Casque.selecteds()[i];
@@ -955,6 +892,27 @@ class Casque {
         //alert("pause sur casques "+numeros.join(" et "));
     }
 
+    /**
+     * Crée 5 casques en mode test
+     */
+    static performTestMode(){
+        //tests only
+        Casque.isTestingMode=true;
+        setTimeout(function () {
+            for(let i=1; i<6;i++){
+                let casque=new Casque(i,Math.random());
+                casque.batteryLevel=Math.random()*100;
+
+                //window.ui.addCasque(this);
+            }
+            setInterval(function(){
+                for (let idx in Casque.all) {
+                    Casque.all[idx]._fakeData();
+                }
+            },1000);
+        },3000);
+    }
+
 
 }
 
@@ -983,17 +941,7 @@ Casque.allByDeviceId = {};
 Casque.allByIdentifier = {};
 
 
-//tests only
-Casque.isTestingMode=false;
-if(Casque.isTestingMode){
-    setTimeout(function () {
-        for(let i=1; i<6;i++){
-            let casque=new Casque(i,Math.random());
-            //window.ui.addCasque(this);
-        }
-        Casque._testFake();
-    },3000);
-}
+
 
 module.exports = Casque;
 

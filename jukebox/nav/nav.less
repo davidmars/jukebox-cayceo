@@ -3,6 +3,18 @@
 
   }
 
+  padding-left: calc( var(--casques-w) + 10px );
+
+  .dropdown-item{
+    display: flex;
+    align-items: center;
+    svg{
+      margin-right: 5px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   svg{
     width: 20px;
     height: 20px;
@@ -15,8 +27,6 @@
   animation-direction: alternate;
   animation-duration: 0.2s;
   animation-iteration-count: infinite;
-
-
 }
 @keyframes motion-syncing {
   0%{

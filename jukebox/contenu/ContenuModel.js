@@ -1,4 +1,5 @@
 const Casque = require("../casque/Casque");
+const FileSystemUtils = require("jukebox-js-libs/utils/FileSystemUtils");
 /**
  * Représente un contenu
  */
@@ -11,8 +12,13 @@ class ContenuModel {
         this.name=data.name;
         this.serverFile=data.serverFile;
         this.localFile=data.localFile;
+
         this.serverThumb=data.serverThumb;
         this.localThumb=data.localThumb;
+
+        this.serverThumbNoResize=data.serverThumbNoResize;
+        this.localThumbNoResize=data.localThumbNoResize;
+
         this.isCopied=Casque.isContenuCopied(this);
         /**
          * Url absolue du fichier à jouer dans le système de fichiers
@@ -24,6 +30,7 @@ class ContenuModel {
          * @type {string}
          */
         this.localThumbAbsolute=machine.appStoragePath+"/"+data.localThumb;
+        this.localThumbNoResizeAbsolute=machine.appStoragePath+"/"+data.localThumbNoResize;
         /**
          *
          * @type {null}
@@ -42,6 +49,7 @@ class ContenuModel {
         $template.data("model",me);
         $template.find(".js-title").text(this.name);
         $template.find("img.card-img-top").attr("src",this.localThumbAbsolute);
+        $template.find("div.card-img-top").css("background-image","url('"+FileSystemUtils.base64_encode(this.localThumbNoResizeAbsolute)+"')");
         $template.on("click",function(e){
            Casque.setContenuSelecteds(me);
         });

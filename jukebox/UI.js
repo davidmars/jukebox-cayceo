@@ -14,9 +14,13 @@ class UI{
         //injecte les icones svg
         let $svg=this.$template("jukebox/svg-collection/jukebox.svg");
         $body.append($svg);
+
         //injecte la nav
         let $nav=this.$template("jukebox/nav.html");
         $body.prepend($nav);
+
+
+
         $nav.on("click",".js-close-app",function(){
            me.exitApp();
         });
@@ -33,6 +37,10 @@ class UI{
          * Conteneur des casques
          */
         this.$casques=$body.find("#casques");
+        /**
+         * Le logo
+         */
+        this.$logo=$body.find("#logo");
 
         /**
          * Element html où sont inscrites les logs
@@ -44,20 +52,26 @@ class UI{
         this.$navOnline=$('[data-nav-screen="online"]');
         this.$navSync=$('.js-sync');
 
+
+        //injecte le menu actions
         /**
          * Le menu qui contient play/pause all
          * @type {*|jQuery|HTMLElement}
          * @private
          */
-        this._actionsMenu=$("#actions-menu");
-        let $btnPlayAll=this._actionsMenu.find("[data-action='play']");
-        let $btnPauseAll=this._actionsMenu.find("[data-action='pause']");
-        $btnPauseAll.on("click",function(){
+        this._actionsMenu=this.$template("jukebox/actions-menu.html");
+        $("[data-screen='local']").append(this._actionsMenu);
+
+        let $btnPlay=this._actionsMenu.find("[data-action='play']");
+        let $btnPause=this._actionsMenu.find("[data-action='pause']");
+        $btnPause.on("click",function(){
             Casque.pauseAllSelected();
         });
-        $btnPlayAll.on("click",function(){
-            Casque.playAllSelected();
+        $btnPlay.on("click",function(){
+            let duration=$(this).attr("data-duration");
+            Casque.playAllSelected(duration);
         });
+
     }
 
     /**
@@ -81,6 +95,14 @@ class UI{
         for(let contenu of contenus){
             this.addContenu(contenu);
         }
+    }
+
+    /**
+     * Charge le logo
+     * @param url
+     */
+    setLogo(url){
+        this.$logo.css("background-image","url('"+this.base64_encode(url)+"')");
     }
 
 

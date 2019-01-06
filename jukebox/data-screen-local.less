@@ -1,24 +1,38 @@
 [data-screen='local']{
-
+  overflow: visible;
   >.row{
     width: 100%;
     flex-shrink: 0;
   }
   position: relative;
-  --casques-w:300px;
+
+  #logo{
+    z-index: 200;
+    background-color: #eee;
+    width: var(--casques-w);
+    height: var(--logo-height);
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: calc( -1 * var(--nav-height) );
+    left: 0;
+  }
 
   #casques,#contenus{
-    //outline: 1px dotted red;
     position: absolute;
-    top: 0px;
+    top: 0;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
   }
 
   #casques{
+
+    background-color: #6C6C6C;
+    top: calc( var(--logo-height) - var(--nav-height) - 1px);
+    height: calc( 100% - var(--logo-height) + var(--nav-height) ) ;
     width: var(--casques-w);
-    left: 1px;
+    left: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -73,19 +87,29 @@
   }
 
   #contenus{
+    //padding-top: var(--spacing);
+    height: auto;
+    max-height: 100%;
     left: calc(var(--casques-w));
     width: calc( 100% - var(--casques-w) );
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    --spacing:15px;
+    //align-items: flex-start;
+    //justify-content: space-around;
+
+
+    --spacing:3px;
+
+    padding: calc( 1 * var(--spacing));
+
     >.contenu-card{
+      flex-grow: 0;
       --width:100%;
       @media(min-width: @screen-md){
         --width:50%;
       }
       @media(min-width: @screen-lg){
-        --width:33%;
+        --width:33.333%;
       }
       @media(min-width: @screen-xl){
         --width:25%;
@@ -93,8 +117,10 @@
       @media(min-width: 1600px){
         --width:20%;
       }
-      width:calc( var(--width) - var(--spacing) * 2);
-      margin: var(--spacing);
+      width:calc( var(--width));
+      //margin-top:var(--spacing);
+      padding: var(--spacing);
+
 
 
     }

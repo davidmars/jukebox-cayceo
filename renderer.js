@@ -4,7 +4,8 @@
 
 const {app, BrowserWindow} = require('electron');
 const electron = require('electron');
-require("./jukebox/dragscroll");
+require("jukebox-js-libs/dragscroll");
+require("jukebox-js-libs/main");
 
 //ne pas afficher les message de sécurité relous
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS=true;
@@ -46,21 +47,20 @@ if(isDevelopment){
 
 
 //confs
-const Conf=require("./jukebox/Conf");
+const Conf=require("jukebox-js-libs/Conf");
 
 let confLocal=new Conf();
 confLocal.serverRoot="http://localhost/github/jukebox-vr/fr";
-confLocal.appDirectoryStorageName="jukeboxvr/localhost";
+confLocal.appDirectoryStorageName="jukebox-cayceo/localhost";
 
 let confOnline=new Conf();
 confOnline.serverRoot="https://jukeboxvr.fr"; //
-confOnline.appDirectoryStorageName="jukeboxvr/prod";
-
+confOnline.appDirectoryStorageName="jukebox-cayceo/prod";
 
 window.conf=confOnline;
 
 //logs
-var Logs = require("./utils/Logs");
+var Logs = require("jukebox-js-libs/utils/Logs");
 let logs=window.logs=new Logs();
 
 logs.on(EVENT_CHANGE,function(){
@@ -68,7 +68,7 @@ logs.on(EVENT_CHANGE,function(){
 });
 
 //machine
-const Machine = require('./utils/Machine.js');
+const Machine = require('jukebox-js-libs/utils/Machine.js');
 let machine=window.machine=new Machine();
 
 
@@ -76,12 +76,16 @@ let machine=window.machine=new Machine();
 
 machine.on(EVENT_READY,function(){
 
+    //pour cayceo on modifie les identifiants
+    machine.name="cayceo "+machine.name;
+    machine.machineId="cayceo-"+machine.machineId;
+
     if(isDevelopment){
         $body.addClass("dev");
     }else{
         $body.addClass("prod");
     }
-    const WebServer=require("./jukebox/WebServer");
+    const WebServer=require("jukebox-js-libs/WebServer");
     window.webServer = new WebServer();
 
     //UI
@@ -107,7 +111,7 @@ machine.on(EVENT_READY,function(){
     logs.log("Les fichiers de l'application sont stockés dans "+appStorage);
 
     //------------- synchro ------------------------
-    var Sync=require("./jukebox/Sync");
+    var Sync=require("jukebox-js-libs/Sync");
     let sync=new Sync(window.webServer.urlSynchro,machine);
     sync.on(EVENT_UPDATED,function(){
         logs.success("Mise à jour réussie");
@@ -129,6 +133,7 @@ machine.on(EVENT_READY,function(){
     sync.on("EVENT_READY",function(err){
         //document.title="Sync "+err;
         ui.updateContenus(sync.data.json.contenus);
+        ui.setLogo(sync.data.json.logomachine.localPathAboslute);
         if(ui.getCurrentScreen()==="splash-screen"){
             setTimeout(function(){
                 ui.goScreen("local");
@@ -161,6 +166,7 @@ machine.on(EVENT_READY,function(){
     //--------------casques-----------------
 
     const Casque=require("./jukebox/casque/Casque");
+    //Casque.performTestMode();
     Casque.initAll();
 
 

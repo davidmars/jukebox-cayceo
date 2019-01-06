@@ -1,8 +1,6 @@
 #actions-menu{
   position: fixed;
   right: 20px;
-  border: 1px solid #eee;
-  background-color: #fff;
   padding: 5px 10px;
 
   transition: all 0.4s;
@@ -11,15 +9,53 @@
     bottom: 0;
   }
 
-  [data-action]{
+  display: flex;
+
+  >.left,>.right{
+    //width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  >.left{
+    width: 200px;
+  }
+
+
+  .btn-pill,.btn-circle{
     border: none;
-    width: 30px;
-    height: 30px;
-    margin: 5px;
-    border-radius: 100%;
-    background-color: var(--color-cayceo);
-    color: #fff;
     outline: none;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15) !important;
+    margin: 3px;
+  }
+
+  .btn-pill{
+    background-color: #A7A7A7;
+    width: 75px;
+    height: 30px;
+    border-radius: 12px;
+    font-size: 1.1em;
+  }
+
+  .btn-circle{
+    background-color: #A7A7A7;
+    width: 75px;
+    height: 75px;
+    border-radius: 100%;
+    color: #fff;
+  }
+
+
+  [data-action]{
+
+
+
+
+
+    //background-color: var(--color-cayceo);
+    //color: #fff;
+    //
     >svg{
       width: 100%;
       height: 100%;

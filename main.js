@@ -3,6 +3,7 @@ const {app, BrowserWindow} = require('electron');
 const electron = require('electron');
 
 
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -11,7 +12,7 @@ const isDevelopment = process.mainModule.filename.indexOf('app.asar') === -1;
 
 function createWindow () {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1024, height: 600});
+    mainWindow = new BrowserWindow({width: 1024, height: 630});
     // and load the index.html of the app.
     mainWindow.loadFile('index.html');
 

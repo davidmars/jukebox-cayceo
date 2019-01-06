@@ -1,8 +1,10 @@
 body,html{
   --nav-height:54px;
+  --casques-w:240px;
+  --logo-height:170px;
   overflow-x: hidden;
 }
-@import "jukebox/_base/variables-screen";
+@import "node_modules/jukebox-js-libs/css/variables-screen.less";
 @import "jukebox/_base/spacing";
 @import "jukebox/_base/scroll";
 @import "jukebox/_base/typography";
@@ -10,6 +12,7 @@ body,html{
 @import "jukebox/data-screen";
 @import "jukebox/data-screen-online";
 @import "jukebox/data-screen-local";
+@import "jukebox/data-screen-splash";
 @import "jukebox/battery/battery.less";
 @import "jukebox/casque/casque";
 @import "jukebox/contenu/contenu-card";
@@ -27,11 +30,18 @@ body,html{
   .dropdown-toggle::after{
     display: none;
   }
+  //
 }
 
+
+
+html{
+  overflow: hidden;
+}
 body{
   user-select: none;
   zoom: 1;
+  overflow: hidden;
   &.prod{
     cursor: none !important;
     *{
