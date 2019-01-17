@@ -389,6 +389,9 @@ class Casque extends CasqueModel{
 
 
 
+
+
+
     /**
      * Convertit des secondes en heures minutes secondes
      * @private
@@ -739,6 +742,28 @@ class Casque extends CasqueModel{
         console.log("setFilesOnCasques");
         Casque.configJson.contenusCopied=contenus;
         Casque._saveConfig();
+
+    }
+
+    /**
+     * Reboot tous les casques
+     */
+    static rebootAll(){
+
+        let Promise = require('bluebird');
+        let adb = require('adbkit');
+        let client = adb.createClient();
+
+
+        alert('reboot all');
+
+        Casque.adbClient.listDevices()
+            .then(function(devices) {
+                return Promise.map(devices, function(device) {
+                    return client.reboot(device.id)
+                })
+            })
+
 
     }
 

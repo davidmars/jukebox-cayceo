@@ -98,6 +98,7 @@ machine.on(EVENT_READY,function(){
     logs.log("Chromium v: "+process.versions.chrome);
     logs.log("Electron v: "+process.versions.electron);
     logs.log("Server: "+conf.serverRoot);
+    $("#display-version").text("Version " + electron.remote.app.getVersion());
 
     //------------ Machine name & MAC-----------------
 
@@ -182,10 +183,19 @@ machine.on(EVENT_READY,function(){
     let Promise = require('bluebird');
     let adb = require('adbkit');
     let client = adb.createClient();
-    let apk = 'APK-test/signed.apk';
+
+
+
+
 
     $body.on("click","[href='#installApk']",function(e){
-        if(confirm("êtes vous certain de vouloir mettre à jour les casques?")){
+        let apk = sync.data.json.casquesapk.localPathAboslute;
+        if ( !apk ){
+            alert("Pas d'apk");
+            return;
+        }
+
+        if(confirm("êtes vous certain de vouloir mettre à jour les casques?") ){
             Casque.adbClient.listDevices()
                 .then(function(devices) {
                     return Promise.map(devices, function(device) {
@@ -193,14 +203,14 @@ machine.on(EVENT_READY,function(){
                     })
                 })
                 .then(function() {
-                    window.alert('Mise à jour installée sur tous les casques !')
+                    window.alert('Mise à jour installée sur tous les casques !');
+                    Casque.rebootAll();
                 })
                 .catch(function(err) {
                     console.error('Something went wrong:', err.stack)
                 })
         }
     })
-
 
 });
 
