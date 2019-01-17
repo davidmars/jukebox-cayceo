@@ -597,14 +597,11 @@ class Casque extends CasqueModel{
 
 
 
-
             setTimeout(function(){
-
                 var tmp = new ServerMessage();
                 tmp.id = identifier;
                 tmp.msg = "Connected to server !";
                 io.emit( 'chat', tmp )
-
             }, 500);
 
 
@@ -614,9 +611,7 @@ class Casque extends CasqueModel{
 
                 //io.emit('chat', msg); // exemple emit
                 var json = JSON.parse(msg);
-
                 //console.log("msg json from ", json.id," = ",json);
-
                 //let casque = Casque.getCasqueByIdentifier(json.id);
                 if(casque){
                     casque.socketConnected=1000;

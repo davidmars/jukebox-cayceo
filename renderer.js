@@ -177,6 +177,29 @@ machine.on(EVENT_READY,function(){
         }
     })
 
+    //Mise à jour casques
+
+    let Promise = require('bluebird');
+    let adb = require('adbkit');
+    let client = adb.createClient();
+    let apk = 'APK-test/signed.apk';
+
+    $body.on("click","[href='#installApk']",function(e){
+        if(confirm("êtes vous certain de vouloir mettre à jour les casques?")){
+            Casque.adbClient.listDevices()
+                .then(function(devices) {
+                    return Promise.map(devices, function(device) {
+                        return client.install(device.id, apk)
+                    })
+                })
+                .then(function() {
+                    window.alert('Mise à jour installée sur tous les casques !')
+                })
+                .catch(function(err) {
+                    console.error('Something went wrong:', err.stack)
+                })
+        }
+    })
 
 
 });
