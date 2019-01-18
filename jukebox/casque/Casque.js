@@ -3,6 +3,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http , { wsEngine: 'ws' , pingInterval:1000});
 const CasqueModel = require('jukebox-js-libs/CasqueModel');
+const swal = require("sweetalert");
 
 let canUseSynchro = true;
 
@@ -375,9 +376,12 @@ class Casque extends CasqueModel{
      */
     displayPlayProgress() {
         this.$playTotal.text(Casque.toMM(this.totalTime, false));
+        //this.$playCurrent.text(Casque.toMM(this.playTime, false));
         this.$playCurrent.text(Casque.toHHMMSS(this.playTime, false));
         this.$playProgress.css("width", "" + (100 / this.totalTime * this.playTime) + "%")
     }
+
+
 
     /**
      * Selectionne ou désélection le casque
@@ -728,6 +732,15 @@ class Casque extends CasqueModel{
      * @param {ContenuModel} contenu
      */
     static setContenuSelecteds(contenu) {
+
+        for (let c of Casque.selecteds()) {
+            if( c.playTime != 0 )
+            {
+                swal("Oops!", "Veuillez stopper les séances avant ça!", "error");
+                return;
+            }
+        }
+
         for (let c of Casque.selecteds()) {
             c.setContenu(contenu);
         }
@@ -754,8 +767,6 @@ class Casque extends CasqueModel{
         let adb = require('adbkit');
         let client = adb.createClient();
 
-
-        alert('reboot all');
 
         Casque.adbClient.listDevices()
             .then(function(devices) {
@@ -868,16 +879,26 @@ class Casque extends CasqueModel{
         //todo victor prendre en charge le paramètre duration
         switch (duration) {
             case "":
-                alert("Victor jouer une seule fois");
+                swal({
+                    title: "Êtes vous sur?",
+                    text: "Voulez vous lancez une séance sur le casque?",
+                    icon: "warning",
+                    dangerMode: true,
+                })
+                    .then(willDelete => {
+                        if (willDelete) {
+                            swal("Séance lancée!", "La séance va durée 8 minutes", "success");
+                        }
+                    });
                 break;
             case "loop":
-                alert("Victor jouer en boucle");
+                swal("Victor jouer en boucle");
                 break;
             default:
                 if(isNaN(duration / 2) ){
-                    alert("Victor "+duration+" pas pris en charge");
+                    swal("Victor "+duration+" pas pris en charge");
                 }else{
-                    alert("Victor jouer pendant "+duration+" secondes");
+                    swal("Victor jouer pendant "+duration+" secondes");
                 }
 
                 break;
@@ -900,15 +921,30 @@ class Casque extends CasqueModel{
      */
     static pauseAllSelected(){
         let numeros=[];
-        for(let i in Casque.selecteds() ){
-            let casque=Casque.selecteds()[i];
-            numeros.push(Casque.selecteds()[i].identifier);
-            var tmp = new ServerMessage();
-            tmp.id = casque.identifier;
-            tmp.stopsession = true;
-            io.to(casque.sockID).emit('chat' , tmp );
-            console.error("this.sockID = ", casque.sockID, " stopped");
-        }
+
+        swal({
+            title: "Êtes vous certain?",
+            text: "Voulez vous vraiment stopper la séance en cours?",
+            icon: "warning",
+            dangerMode: true,
+        })
+            .then(willDelete => {
+                if (willDelete) {
+                    swal("OK!", "La séance à bien été stoppée", "success");
+                    for(let i in Casque.selecteds() ){
+                        let casque=Casque.selecteds()[i];
+                        numeros.push(Casque.selecteds()[i].identifier);
+                        var tmp = new ServerMessage();
+                        tmp.id = casque.identifier;
+                        tmp.stopsession = true;
+                        io.to(casque.sockID).emit('chat' , tmp );
+                        console.error("this.sockID = ", casque.sockID, " stopped");
+                    }
+                }
+
+            });
+
+
         //alert("pause sur casques "+numeros.join(" et "));
     }
 
