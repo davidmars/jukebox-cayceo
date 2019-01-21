@@ -22,7 +22,7 @@
     "clean-webpack-plugin": "^0.1.18",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^0.28.9",
-    "electron": "^3.0.4",
+    "electron": "^3.1.1",
     "electron-builder": "^20.38.5",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
@@ -80,7 +80,7 @@
   "dependencies": {
     "adbkit": "^2.11.0",
     "electron-log": "^2.2.17",
-    "electron-updater": "^3.2.3",
+    "electron-updater": "^4.0.0",
     "event-emitter-es6": "^1.1.5",
     "express": "^4.15.2",
     "jquery": "^3.3.1",

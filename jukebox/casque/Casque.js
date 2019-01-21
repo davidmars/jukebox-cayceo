@@ -17,6 +17,7 @@ let ServerMessage=function(){
     this.calibrate = false;
     this.opencalibration = false;
     this.videoPath = "";
+    this.sessionDuration = -1;
     this.msg = "default";
 };
 
@@ -284,9 +285,11 @@ class Casque extends CasqueModel{
         //teste si le fichier est sur le casque
         if(!Casque.isTestingMode){
             if(!this._fileExists(contenu.localFile)){
-                alert("pas sur le casque "+this.identifier);
+                swal("Oops!", "Le contenu sélectionné n'est pas sur le casque "+this.identifier+"!", "error");
                 return;
             }
+
+
         }
 
 
@@ -377,8 +380,15 @@ class Casque extends CasqueModel{
     displayPlayProgress() {
         this.$playTotal.text(Casque.toMM(this.totalTime, false));
         //this.$playCurrent.text(Casque.toMM(this.playTime, false));
-        this.$playCurrent.text(Casque.toHHMMSS(this.playTime, false));
-        this.$playProgress.css("width", "" + (100 / this.totalTime * this.playTime) + "%")
+        this.$playCurrent.text(Casque.toHHMMSS(this.totalTime-this.playTime, false));
+        //this.$playProgress.css("width", "" + (100 / this.totalTime * this.playTime) + "%")
+        this.$playProgress.css(
+            {
+                //'height': '20%',
+                //'top': '51%',
+                //'border': '1px solid #ccc',
+                'width': ''+ 100 - (100 / this.totalTime * this.playTime) + '%'
+            })
     }
 
 
@@ -721,8 +731,6 @@ class Casque extends CasqueModel{
     static _onSelectCasques(){
         let active=Casque.selecteds().length > 0;
         window.ui.activeActionMenu(active);
-
-
     }
 
 
@@ -741,11 +749,35 @@ class Casque extends CasqueModel{
             }
         }
 
-        for (let c of Casque.selecteds()) {
-            c.setContenu(contenu);
+        if ( Casque.selecteds().length === 0 )
+        {
+            swal("Oops!", "Veuillez sélectionner des casques avant ça!", "error");
+            return;
         }
-        //Casque.unselectAll();
+
+
+        swal({
+            title: "Êtes vous sur?",
+            text: "Modifier le contenu des casques sélectionnés?",
+            icon: "warning",
+            dangerMode: true,
+        })
+            .then(validPlay => {
+
+                if (validPlay ) {
+
+                    swal("Validé!", "Le contenu à bien été attribué", "success");
+                    for (let c of Casque.selecteds()) {
+                        c.setContenu(contenu);
+                    }
+                }
+                else {
+                    return;
+                }
+            });
     }
+
+
 
     /**
      * Enregistre dans le json quels contenus sont sensés etre sur les casques
@@ -872,50 +904,74 @@ class Casque extends CasqueModel{
     }
 
     /**
-     * Lance la commande de lecture sur tous les casques selectionnés
+     * Demande comfirmation pour lancer la commande de lecture sur tous les casques selectionnés
      * @param {string|int} duration soit la durée en secondes, soit "loop" soit rien pour jouer une seule fois.
      */
     static playAllSelected(duration){
         //todo victor prendre en charge le paramètre duration
-        switch (duration) {
-            case "":
-                swal({
-                    title: "Êtes vous sur?",
-                    text: "Voulez vous lancez une séance sur le casque?",
-                    icon: "warning",
-                    dangerMode: true,
-                })
-                    .then(willDelete => {
-                        if (willDelete) {
-                            swal("Séance lancée!", "La séance va durée 8 minutes", "success");
-                        }
-                    });
-                break;
-            case "loop":
-                swal("Victor jouer en boucle");
-                break;
-            default:
-                if(isNaN(duration / 2) ){
-                    swal("Victor "+duration+" pas pris en charge");
-                }else{
-                    swal("Victor jouer pendant "+duration+" secondes");
-                }
 
-                break;
-        }
+        var tmp = new ServerMessage();
+
+
+        swal({
+            title: "Êtes vous sur?",
+            text: "Voulez vous lancez une séance sur le casque?",
+            icon: "warning",
+            dangerMode: true,
+        })
+            .then(validPlay => {
+
+                if (validPlay ) {
+
+
+                    switch (duration) {
+                        case "":
+                            swal("Séance lancée!", "La séance va durée 8 minutes", "success");
+                            tmp.sessionDuration = -1;
+                            break;
+                        case "loop":
+                            swal("Séance lancée!", "La séance va tourner en boucle", "success");
+                            tmp.sessionDuration = -1;
+                            break;
+                        default:
+                            if(isNaN(duration / 2) ){
+                                swal("durée "+duration/60+"minutes pas pris en charge");
+                                tmp.sessionDuration = 0;
+                            }else{
+                                swal("Séance lancée!", "La séance va durée "+duration/60+" minutes", "success");
+                                tmp.sessionDuration = duration;
+                            }
+                            break;
+                    }
+                    Casque.playAllSelectedComfirmed(tmp);
+                }
+                else {
+                    return;
+                }
+            });
+
+    }
+
+
+    /**
+     * Lance la commande de lecture sur tous les casques selectionnés
+     * @param {message|servermessage} message à envoyer à tous les casques .
+     */
+    static playAllSelectedComfirmed(message) {
+
         let numeros=[];
         for(let i in Casque.selecteds() ){
             let casque=Casque.selecteds()[i];
             numeros.push(casque.identifier);
-            var tmp = new ServerMessage();
-            tmp.id = casque.identifier;
-            tmp.startsession = true;
-            io.to(casque.sockID).emit('chat' , tmp );
+            message.id = casque.identifier;
+            message.startsession = true;
+            io.to(casque.sockID).emit('chat' , message );
             console.error("this.sockID = ", casque.sockID, " Play");
         }
-        //alert("lecture sur casques "+numeros.join(" et "));
+
         Casque.unselectAll();
     }
+
     /**
      * Lance la commande de pause sur tous les casques selectionnés
      */
