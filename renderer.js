@@ -6,7 +6,7 @@ const {app, BrowserWindow} = require('electron');
 const electron = require('electron');
 require("jukebox-js-libs/dragscroll");
 require("jukebox-js-libs/main");
-const swal = require("sweetalert");
+const Swal = require("sweetalert2");
 
 //ne pas afficher les message de sécurité relous
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS=true;
@@ -192,23 +192,26 @@ machine.on(EVENT_READY,function(){
     $body.on("click","[href='#installApk']",function(e){
         let apk = sync.data.json.casquesapk.localPathAboslute;
         if ( !apk ){
-            swal("Pas d'update!", "Aucune mise à jour disponible", "warning");
+            Swal.fire("Pas d'update!", "Aucune mise à jour disponible", "warning");
             return;
         }
 
 
 
-        swal({
+        Swal.fire({
             title: "Êtes vous sure?",
             text: "Êtes vous certain de vouloir mettre à jour les casques?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui",
+            cancelButtonText: "Non"
         })
-            .then((willDelete) => {
-                if (willDelete) {
+            .then((valid) => {
+                if (valid.value) {
 
-                    swal("Mise à jour!", "Mise à jour en cours, ne débranchez rien et patientez!", {
+                    Swal.fire("Mise à jour!", "Mise à jour en cours, ne débranchez rien et patientez!", {
                         icon: "success",
                         button: false
                     });
@@ -222,7 +225,7 @@ machine.on(EVENT_READY,function(){
                             })
                         })
                         .then(function() {
-                            swal("Parfait!", "Mise à jour installée sur tous les casques, redémarrage!", "success");
+                            Swal.fire("Parfait!", "Mise à jour installée sur tous les casques, redémarrage!", "success");
                             Casque.rebootAll();
                         })
                         .catch(function(err) {
@@ -230,7 +233,7 @@ machine.on(EVENT_READY,function(){
                         })
 
                 } else {
-                    swal("Mise à jour annulée!");
+                    Swal.fire("Mise à jour annulée!");
                 }
             });
 

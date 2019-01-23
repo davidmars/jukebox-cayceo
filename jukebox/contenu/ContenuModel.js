@@ -1,5 +1,8 @@
 const Casque = require("../casque/Casque");
 const FileSystemUtils = require("jukebox-js-libs/utils/FileSystemUtils");
+const Swal = require("sweetalert2");
+
+
 /**
  * Représente un contenu
  */
@@ -78,24 +81,48 @@ class ContenuModel {
     }
 
     setIsCopied(copied=false){
-        this.isCopied=copied;
-        if(this.isCopied){
-            this.$copied.addClass("copied");
-        }else{
-            this.$copied.removeClass("copied");
-        }
-        let files={};
-        $(".contenu-card").each(function(){
-           if($(this).find(".copied").length>0){
-               /**
-                *
-                 * @type {ContenuModel}
-                */
-               let contenu=$(this).data("model");
-               files[contenu.localFile]=1;
-           }
-        });
-        Casque.setFilesOnCasques(files);
+
+
+        Swal.fire({
+                title: "Êtes vous sur?",
+                text: " Modifier les expériences sur les casques ?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Oui",
+                cancelButtonText: "Non"
+            })
+            .then(validPlay => {
+
+                if (validPlay.value) {
+
+
+                    this.isCopied = copied;
+                    if (this.isCopied) {
+                        this.$copied.addClass("copied");
+                    } else {
+                        this.$copied.removeClass("copied");
+                    }
+                    let files = {};
+                    $(".contenu-card").each(function () {
+                        if ($(this).find(".copied").length > 0) {
+                            /**
+                             *
+                             * @type {ContenuModel}
+                             */
+                            let contenu = $(this).data("model");
+                            files[contenu.localFile] = 1;
+                        }
+                    });
+                    Casque.setFilesOnCasques(files);
+                }
+
+            });
+
+
+
+
     }
 
 }

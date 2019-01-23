@@ -3,7 +3,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http , { wsEngine: 'ws' , pingInterval:1000});
 const CasqueModel = require('jukebox-js-libs/CasqueModel');
-const swal = require("sweetalert");
+const Swal = require("sweetalert2");
 
 let canUseSynchro = true;
 
@@ -150,7 +150,29 @@ class Casque extends CasqueModel{
      */
     _adbPushFile(filePath, onProgress, onComplete){
         let me=this;
+        let stats = fs.statSync(window.machine.appStoragePath+"/"+filePath,'/sdcard/Download/'+filePath);
+        let fileSizeInBytes = stats["size"];
+
+
+
+
         if(!this._fileExists(filePath)){
+
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false
+            });
+
+            var percentagePopUp = Toast.fire({
+                type: 'info',
+                title: 'Transfert en cours'
+            });
+
+
+
+
             console.log("copie "+filePath + "sur " + me.deviceId);
             console.log("File exist pas !");
             me.isSynchroBusy=true;
@@ -158,14 +180,32 @@ class Casque extends CasqueModel{
                 .then(function (transfer) {
                     return new Promise(function (resolve, reject) {
                         transfer.on('progress', function (stats) {
-                            console.log('[%s] Pushed %d bytes so far',
+                            console.log('[%s] Pushed %d bytes so far for %d bytes',
                                 me.deviceId,
-                                stats.bytesTransferred)
+                                stats.bytesTransferred,
+                                fileSizeInBytes);
+
+
+                            var percentage = ( stats.bytesTransferred/fileSizeInBytes)*99;
+                            percentagePopUp.update({
+                                title: "Copie sur casque "+me.identifier+": "+Math.floor(percentage)+"%"
+                            })
+
                         });
                         transfer.on('end', function () {
                             console.log('[%s] Push complete', me.deviceId);
                             me.isSynchroBusy=false;
                             canUseSynchro = true;
+
+                            percentagePopUp.close();
+
+
+                            Toast.fire({
+                                type: 'success',
+                                title: 'Expériences synchronisées!',
+                                timer: 3000
+                            });
+
                             resolve()
                         });
                         transfer.on('error', reject)
@@ -190,7 +230,17 @@ class Casque extends CasqueModel{
 
         let me=this;
 
+
         if(this._fileExists(filePath)){
+
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false
+            });
+
+
             console.log("remove "+filePath);
 
             Casque.adbClient.shell(me.deviceId, 'rm -f '+'/sdcard/Download/'+filePath, function(err, output){
@@ -201,6 +251,11 @@ class Casque extends CasqueModel{
                     console.log("Delete Successeful " , filePath);
                     me.isSynchroBusy=false;
                     canUseSynchro = true;
+                    Toast.fire({
+                        type: 'success',
+                        title: 'Expériences supprimées!',
+                        timer: 3000
+                    });
                 }
                 else
                 {
@@ -223,7 +278,6 @@ class Casque extends CasqueModel{
     _adbGetFiles(Path){
 
     }
-
 
     /**
      *
@@ -285,14 +339,10 @@ class Casque extends CasqueModel{
         //teste si le fichier est sur le casque
         if(!Casque.isTestingMode){
             if(!this._fileExists(contenu.localFile)){
-                swal("Oops!", "Le contenu sélectionné n'est pas sur le casque "+this.identifier+"!", "error");
+                Swal.fire("Oops!", "Le contenu sélectionné n'est pas sur le casque "+this.identifier+"!", "error");
                 return;
             }
-
-
         }
-
-
 
         if (this.contenu) {
             this.playTime = 0;
@@ -391,8 +441,6 @@ class Casque extends CasqueModel{
             })
     }
 
-
-
     /**
      * Selectionne ou désélection le casque
      */
@@ -400,10 +448,6 @@ class Casque extends CasqueModel{
         this.$el.toggleClass("selected");
         Casque._onSelectCasques();
     }
-
-
-
-
 
 
     /**
@@ -649,6 +693,7 @@ class Casque extends CasqueModel{
                     if ( json.fileList && json.fileList.length)
                     {
                         casque._files =json.fileList;
+                        //console.log(casque._files);
                         for ( let i = 0 ; i<casque._files.length ;  i++)
                         {
                             casque._files[i] =casque._files[i].split("\\").join("/");
@@ -733,8 +778,6 @@ class Casque extends CasqueModel{
         window.ui.activeActionMenu(active);
     }
 
-
-
     /**
      * Attribue le contenu donné à tous les casques selectionnés
      * @param {ContenuModel} contenu
@@ -744,29 +787,42 @@ class Casque extends CasqueModel{
         for (let c of Casque.selecteds()) {
             if( c.playTime != 0 )
             {
-                swal("Oops!", "Veuillez stopper les séances avant ça!", "error");
+                Swal.fire("Oops!", "Veuillez stopper les séances avant ça!", "error");
                 return;
             }
         }
 
         if ( Casque.selecteds().length === 0 )
         {
-            swal("Oops!", "Veuillez sélectionner des casques avant ça!", "error");
+            Swal.fire("Oops!", "Veuillez sélectionner des casques avant ça!", "error");
             return;
         }
 
 
-        swal({
+        Swal.fire({
             title: "Êtes vous sur?",
             text: "Modifier le contenu des casques sélectionnés?",
-            icon: "warning",
-            dangerMode: true,
+            type: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui",
+            cancelButtonText: "Non"
         })
             .then(validPlay => {
 
-                if (validPlay ) {
+                if (validPlay.value ) {
 
-                    swal("Validé!", "Le contenu à bien été attribué", "success");
+
+                    Swal.fire({
+                        title: "Validé!",
+                        html: "Le contenu à bien été attribué",
+                        timer: 2000,
+                        type:"success",
+                        showConfirmButton: false
+
+                    });
+
                     for (let c of Casque.selecteds()) {
                         c.setContenu(contenu);
                     }
@@ -776,8 +832,6 @@ class Casque extends CasqueModel{
                 }
             });
     }
-
-
 
     /**
      * Enregistre dans le json quels contenus sont sensés etre sur les casques
@@ -806,11 +860,7 @@ class Casque extends CasqueModel{
                     return client.reboot(device.id)
                 })
             })
-
-
     }
-
-
 
     /**
      * Synchronise les contenus qui doivent l'être sur le casques
@@ -853,7 +903,6 @@ class Casque extends CasqueModel{
                         return false;
                     }
                 }
-
             }
         }
 
@@ -889,8 +938,6 @@ class Casque extends CasqueModel{
         return true;
     }
 
-
-
     /**
      * Dit si un contenu est copié sur tous les casques ou pas
      * (se base sur le json pour dire ça)
@@ -913,32 +960,59 @@ class Casque extends CasqueModel{
         var tmp = new ServerMessage();
 
 
-        swal({
+
+
+        Swal.fire({
             title: "Êtes vous sur?",
             text: "Voulez vous lancez une séance sur le casque?",
-            icon: "warning",
-            dangerMode: true,
+            type: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui",
+            cancelButtonText: "Non"
         })
             .then(validPlay => {
 
-                if (validPlay ) {
-
+                if (validPlay.value ) {
 
                     switch (duration) {
                         case "":
-                            swal("Séance lancée!", "La séance va durée 8 minutes", "success");
+                            Swal.fire({
+                                title: "Séance lancée!",
+                                html: "La séance va durée quelques minutes",
+                                timer: 2000,
+                                type:"success",
+                                showConfirmButton: false
+
+                            });
                             tmp.sessionDuration = -1;
                             break;
                         case "loop":
-                            swal("Séance lancée!", "La séance va tourner en boucle", "success");
+                            Swal.fire({
+                                title: "Séance lancée!",
+                                html: "La séance va tourner en boucle",
+                                timer: 2000,
+                                type:"success",
+                                showConfirmButton: false
+
+                            });
                             tmp.sessionDuration = -1;
                             break;
                         default:
                             if(isNaN(duration / 2) ){
-                                swal("durée "+duration/60+"minutes pas pris en charge");
+                                Swal.fire("durée "+duration/60+"minutes pas pris en charge");
                                 tmp.sessionDuration = 0;
                             }else{
-                                swal("Séance lancée!", "La séance va durée "+duration/60+" minutes", "success");
+                                //Swal.fire("Séance lancée!", "La séance va durée "+duration/60+" minutes", "success");
+                                Swal.fire({
+                                    title: "Séance lancée!",
+                                    html: "La séance va durée "+duration/60+" minutes",
+                                    timer: 2000,
+                                    type:"success",
+                                    showConfirmButton: false
+
+                                });
                                 tmp.sessionDuration = duration;
                             }
                             break;
@@ -951,7 +1025,6 @@ class Casque extends CasqueModel{
             });
 
     }
-
 
     /**
      * Lance la commande de lecture sur tous les casques selectionnés
@@ -978,15 +1051,28 @@ class Casque extends CasqueModel{
     static pauseAllSelected(){
         let numeros=[];
 
-        swal({
+        Swal.fire({
             title: "Êtes vous certain?",
             text: "Voulez vous vraiment stopper la séance en cours?",
-            icon: "warning",
-            dangerMode: true,
+            type: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui",
+            cancelButtonText: "Non"
         })
-            .then(willDelete => {
-                if (willDelete) {
-                    swal("OK!", "La séance à bien été stoppée", "success");
+            .then(validplay=> {
+                if (validplay.value) {
+                    Swal.fire({
+                        title: "OK!",
+                        html: "La séance à bien été stoppée",
+                        timer: 2000,
+                        type:"success",
+                        showConfirmButton: false
+
+                    });
+
+
                     for(let i in Casque.selecteds() ){
                         let casque=Casque.selecteds()[i];
                         numeros.push(Casque.selecteds()[i].identifier);
@@ -997,6 +1083,7 @@ class Casque extends CasqueModel{
                         console.error("this.sockID = ", casque.sockID, " stopped");
                     }
                 }
+
 
             });
 
@@ -1041,7 +1128,6 @@ Casque.configJson = {
  * @type {Casque[]}
  */
 Casque.all = [];
-
 /**
  * Liste des casques indexée par deviceid (ADB)
  */
@@ -1051,8 +1137,6 @@ Casque.allByDeviceId = {};
  * Liste des casques indexée par numéros (ip, socket)
  */
 Casque.allByIdentifier = {};
-
-
 
 
 module.exports = Casque;
