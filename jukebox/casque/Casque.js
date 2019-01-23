@@ -405,6 +405,14 @@ class Casque extends CasqueModel{
             this.$el.removeClass("has-contenu");
         }
 
+        if(this.playTime ===0 )
+        {
+            this.$el.addClass("is-available");
+        }
+        else
+        {
+            this.$el.removeClass("is-available");
+        }
     }
 
     /**
@@ -432,13 +440,23 @@ class Casque extends CasqueModel{
         //this.$playCurrent.text(Casque.toMM(this.playTime, false));
         this.$playCurrent.text(Casque.toHHMMSS(this.totalTime-this.playTime, false));
         //this.$playProgress.css("width", "" + (100 / this.totalTime * this.playTime) + "%")
-        this.$playProgress.css(
-            {
-                //'height': '20%',
-                //'top': '51%',
-                //'border': '1px solid #ccc',
-                'width': ''+ 100 - (100 / this.totalTime * this.playTime) + '%'
-            })
+        if ( this.playTime === 0 )
+        {
+            this.$playProgress.css(
+                {
+                    'opacity':0.75,
+                    'width': '0'
+                })
+        }
+        else
+        {
+            this.$playProgress.css(
+                {
+                    'opacity':0.75,
+                    'width': ''+ 100 - (100 / this.totalTime * this.playTime) + '%'
+                })
+        }
+
     }
 
     /**

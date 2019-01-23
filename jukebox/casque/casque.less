@@ -186,17 +186,26 @@
     opacity:0;
   }
   >.etat{
-    background-color: #5876C0;
+    background-color: #607775;
   }
   &.has-contenu{
     >.img,>.play-texts,>.play-progress{
       opacity:1;
     }
-    >.etat{
-      background-color: #A9C564;
-    }
     background-color: #607775;
+
+    >.etat{
+      background-color: #5876C0;
+    }
+
+    &.is-available{
+      >.etat{
+        background-color: #A9C564;
+      }
+    }
+
   }
+
 
   &.selected{
     background-color: var(--color-cayceo) !important;
