@@ -135,7 +135,9 @@ machine.on(EVENT_READY,function(){
     sync.on("EVENT_READY",function(err){
         //document.title="Sync "+err;
         ui.updateContenus(sync.data.json.contenus);
-        ui.setLogo(sync.data.json.logomachine.localPathAboslute);
+        if(sync.data.json.logomachine.localFile){
+            ui.setLogo(machine.appStoragePath+"/"+ sync.data.json.logomachine.localFile);
+        }
         if(ui.getCurrentScreen()==="splash-screen"){
             setTimeout(function(){
                 ui.goScreen("local");
