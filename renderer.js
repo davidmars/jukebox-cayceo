@@ -201,7 +201,7 @@ machine.on(EVENT_READY,function(){
 
 
         Swal.fire({
-            title: "Êtes vous sure?",
+            title: "Êtes vous sûr?",
             text: "Êtes vous certain de vouloir mettre à jour les casques?",
             type: "warning",
             showCancelButton: true,
