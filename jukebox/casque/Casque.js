@@ -823,7 +823,7 @@ class Casque extends CasqueModel{
 
         Swal.fire({
             title: "Êtes-vous sûr?",
-            text: "Attribuer la séances aux casques sélectionnés?",
+            text: "Attribuer la séance aux casques sélectionnés?",
             type: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -838,7 +838,7 @@ class Casque extends CasqueModel{
 
                     Swal.fire({
                         title: "Validé!",
-                        html: "Le contenu à bien été attribué",
+                        html: "Le contenu a bien été attribué",
                         timer: 2000,
                         type:"success",
                         showConfirmButton: false
@@ -1075,7 +1075,7 @@ class Casque extends CasqueModel{
 
         Swal.fire({
             title: "Êtes-vous sûr?",
-            text: "Voulez vous vraiment stopper la séance en cours?",
+            text: "Voulez-vous vraiment stopper la séance en cours?",
             type: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -1087,7 +1087,7 @@ class Casque extends CasqueModel{
                 if (validplay.value) {
                     Swal.fire({
                         title: "OK!",
-                        html: "La séance à bien été stoppée",
+                        html: "La séance a bien été stoppée",
                         timer: 2000,
                         type:"success",
                         showConfirmButton: false
