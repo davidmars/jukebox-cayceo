@@ -1,6 +1,6 @@
 {
   "name": "jukebox-cayceo",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "Rendez-vous sur JUKEBOXVR.FR",
   "main": "main.js",
   "scripts": {
