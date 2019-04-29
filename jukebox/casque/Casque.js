@@ -742,6 +742,10 @@ class Casque extends CasqueModel{
             socket.on('disconnect', function(){
                 let casque = Casque.getCasqueByIdentifier(identifier);
                 if(casque){
+                    if(casque.isSelected())
+                    {
+                        casque.toggleSelected();
+                    }
                     casque.socketConnected = 0;
                     console.log('user disconnected '+ identifier);
                 }
@@ -818,8 +822,8 @@ class Casque extends CasqueModel{
 
 
         Swal.fire({
-            title: "Êtes vous sur?",
-            text: "Modifier le contenu des casques sélectionnés?",
+            title: "Êtes-vous sûr?",
+            text: "Attribuer la séances aux casques sélectionnés?",
             type: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -981,8 +985,8 @@ class Casque extends CasqueModel{
 
 
         Swal.fire({
-            title: "Êtes vous sur?",
-            text: "Voulez vous lancez une séance sur le casque?",
+            title: "Êtes-vous sûr?",
+            text: "Préparer le casque sélectionné?",
             type: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -997,9 +1001,9 @@ class Casque extends CasqueModel{
                     switch (duration) {
                         case "":
                             Swal.fire({
-                                title: "Séance lancée!",
-                                html: "La séance va durée quelques minutes",
-                                timer: 2000,
+                                title: "Casque prêt!",
+                                html: "Appuyer sur le bouton du casque pour lancer la séance",
+                                timer: 5000,
                                 type:"success",
                                 showConfirmButton: false
 
@@ -1070,7 +1074,7 @@ class Casque extends CasqueModel{
         let numeros=[];
 
         Swal.fire({
-            title: "Êtes vous certain?",
+            title: "Êtes-vous sûr?",
             text: "Voulez vous vraiment stopper la séance en cours?",
             type: "question",
             showCancelButton: true,
