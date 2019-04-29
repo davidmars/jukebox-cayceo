@@ -170,8 +170,8 @@ machine.on(EVENT_READY,function(){
     //--------------casques-----------------
 
     const Casque=require("./jukebox/casque/Casque");
-    //Casque.performTestMode();
-    Casque.initAll();
+    Casque.performTestMode();
+    //Casque.initAll();
 
 
     //reinstall
