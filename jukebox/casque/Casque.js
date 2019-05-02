@@ -625,9 +625,14 @@ class Casque extends CasqueModel{
                     console.log('Device %s was plugged in', device.id);
 
                     let casque=Casque.getCasqueByDeviceId(device.id);
-                    casque.adbConnected=true;
-                    casque.refreshDisplay();
-                    //casque._syncContenus();
+                    if(casque){
+                        casque.adbConnected=true;
+                        casque.refreshDisplay();
+                        //casque._syncContenus();
+                    }else{
+                        console.error("casque "+device.id+" n'est pas référencé")
+                    }
+
 
                 });
                 tracker.on('remove', function (device) {
