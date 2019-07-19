@@ -1,0 +1,16 @@
+<svg id="svg-lines" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" preserveAspectRatio="none">
+    <g>
+        <g class="c1">
+            <path d="M-5,257 C124,503 349,2 500,263" fill="none" stroke="#000" class="c1"/>
+        </g>
+        <g class="c2">
+            <path d="M-10,257 C231,1 442,491 524,266" fill="none" stroke="#000" class="c2"/>
+        </g>
+        <g class="c3">
+            <path d="M-20,250 C244,497 240,29 520,250" fill="none" stroke="#000" class="c3"/>
+        </g>
+        <g class="c4">
+            <path d="M-20,250 C244,497 240,29 520,250" fill="none" stroke="#000" class="c4"/>
+        </g>
+    </g>
+</svg>

@@ -527,8 +527,33 @@ class Casque extends CasqueModel{
         if (Casque.allByIdentifier[identifier]) {
             return Casque.allByIdentifier[identifier];
         }
-        console.error("Le casque ayant pour numéro "+identifier+" n'existe pas");
-        return null;
+        else {
+            console.error("Le casque ayant pour numéro "+identifier+" n'existe pas");
+            const dialog = require('electron').remote.dialog;
+            const options = {
+                type: 'question',
+                buttons: ["annuler",'1', '2', '3', '4', '5'],
+                defaultId: 5,
+                title: 'Question',
+                message: 'Veuillez inquer la position du casque que vous vennez de connecter pour la première fois'
+            };
+            dialog.showMessageBox(null, options, (response) => {
+                if (response === 0) {
+                    return null;
+                }else {
+                    let s = "000000" + response;
+                    s = s.substr(s.length-2);
+                    Casque.configJson.casques[identifier] = {
+                        "identifier":identifier
+                    };
+                    Casque._saveConfig();
+                    console.error(" reboat app to add the device");
+                    Casque.initAll();
+                    return null;
+                }
+            });
+        }
+
     }
 
     /**
@@ -548,10 +573,17 @@ class Casque extends CasqueModel{
             return new Casque(Casque.configJson.casques[deviceId].identifier, deviceId);
         }
         else {
+
+            var btns = ['annuler']
+            for (let deviceId in Casque.configJson.casques) {
+                if (!Casque.configJson.casques.hasOwnProperty(deviceId)) continue;
+                btns.push(deviceId);
+            }
+
             const dialog = require('electron').remote.dialog;
             const options = {
                 type: 'question',
-                buttons: ["annuler",'1', '2', '3', '4', '5'],
+                buttons: btns,
                 defaultId: 5,
                 title: 'Question',
                 message: 'Veuillez inquer le numéro du casque que vous vennez de brancher pour la première fois'
@@ -560,12 +592,13 @@ class Casque extends CasqueModel{
                 if (response === 0) {
                     return null;
                 }else {
-                    let s = "000000" + response;
+                    let s = "000000" + btns[response];
                     s = s.substr(s.length-2);
                     Casque.configJson.casques[deviceId] = {
                         "identifier":s
                     };
                     Casque._saveConfig();
+                    Casque.initAll();
                     return Casque.getCasqueByDeviceId(deviceId);
                 }
             });
@@ -628,7 +661,6 @@ class Casque extends CasqueModel{
                     if(casque){
                         casque.adbConnected=true;
                         casque.refreshDisplay();
-                        //casque._syncContenus();
                     }else{
                         console.error("casque "+device.id+" n'est pas référencé")
                     }
@@ -636,7 +668,7 @@ class Casque extends CasqueModel{
 
                 });
                 tracker.on('remove', function (device) {
-                    console.log('Device %s was unplugged', device.id)
+                    console.log('Device %s was unplugged', device.id);
                     let casque=Casque.getCasqueByDeviceId(device.id);
                     casque.adbConnected=false;
                     if ( casque.isSynchroBusy )
@@ -663,7 +695,6 @@ class Casque extends CasqueModel{
      * @private
      */
     static _initSocket(){
-
 
         http.listen(3000, function(){
             console.log('listening on *:3000');
