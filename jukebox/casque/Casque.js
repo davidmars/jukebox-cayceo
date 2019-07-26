@@ -7,6 +7,7 @@ const Swal = require("sweetalert2");
 
 let canUseSynchro = true;
 
+
 let ServerMessage=function(){
     this.id = 0;
     this.battery = false;
@@ -28,6 +29,7 @@ class Casque extends CasqueModel{
 
         let me=this;
 
+
         Casque.all.push(this);
         Casque.allByDeviceId[deviceId] = this;
         Casque.allByIdentifier[identifier] = this;
@@ -37,6 +39,8 @@ class Casque extends CasqueModel{
          * @type {boolean}
          */
         this.isSynchroBusy=false;
+        this.casqueFiles = [];
+        this.subFolders = [];
 
         this.$el = null;
         this.$battery = null;
@@ -125,7 +129,6 @@ class Casque extends CasqueModel{
                     }
                 );
             }
-
         }
 
 
@@ -140,7 +143,7 @@ class Casque extends CasqueModel{
      * @private
      */
     _fileExists(file){
-       return this._files.indexOf(file)> -1;
+       return this.casqueFiles.indexOf(file)> -1;
     }
 
 
@@ -150,10 +153,9 @@ class Casque extends CasqueModel{
      */
     _adbPushFile(filePath, onProgress, onComplete){
         let me=this;
+        console.log(filePath);
         let stats = fs.statSync(window.machine.appStoragePath+"/"+filePath,'/sdcard/Download/'+filePath);
         let fileSizeInBytes = stats["size"];
-
-
 
 
         if(!this._fileExists(filePath)){
@@ -172,19 +174,22 @@ class Casque extends CasqueModel{
 
 
 
-
-            console.log("copie "+filePath + "sur " + me.deviceId);
+            console.log(me.casqueFiles);
+            console.log("copie "+filePath + " sur " + me.deviceId);
             console.log("File exist pas !");
             me.isSynchroBusy=true;
+
+
             Casque.adbClient.push(me.deviceId, window.machine.appStoragePath+"/"+filePath,'/sdcard/Download/'+filePath)
                 .then(function (transfer) {
                     return new Promise(function (resolve, reject) {
                         transfer.on('progress', function (stats) {
-                            console.log('[%s] Pushed %d bytes so far for %d bytes',
-                                me.deviceId,
-                                stats.bytesTransferred,
-                                fileSizeInBytes);
 
+                           /* console.log('[%s] Pushed %d bytes so far for %d bytes',
+                            me.deviceId,
+                            stats.bytesTransferred,
+                            fileSizeInBytes);
+                            */
 
                             var percentage = ( stats.bytesTransferred/fileSizeInBytes)*99;
                             percentagePopUp.update({
@@ -370,6 +375,10 @@ class Casque extends CasqueModel{
             this.displayBattery();
             this.displayPlayProgress();
         }
+        else
+        {
+
+        }
 
         if(this.adbConnected){
             this.$adb.addClass("active");
@@ -385,6 +394,7 @@ class Casque extends CasqueModel{
             this.$synchroBusy.addClass("active");
         }else{
             this.$synchroBusy.removeClass("active");
+            this.$synchro.removeClass("active");
         }
         if(this.isSyncro){
             this.$synchro.addClass("active");
@@ -456,7 +466,6 @@ class Casque extends CasqueModel{
                     'width': ''+ 100 - (100 / this.totalTime * this.playTime) + '%'
                 })
         }
-
     }
 
     /**
@@ -466,6 +475,183 @@ class Casque extends CasqueModel{
         this.$el.toggleClass("selected");
         Casque._onSelectCasques();
     }
+
+    /**
+     * Declenche la synchronisation de contenu apres le listing de fichier et le relance ( le listing )
+     */
+    triggerSynch(){
+
+        let casque = this;
+        //console.log(casque.casqueFiles);
+        casque._syncContenus();
+        clearTimeout(casque.refreshTimeoutId);
+        casque.refreshTimeoutId = setTimeout(function () {
+            casque.resetAutoSynchContenu();
+        }, 5000);
+    }
+
+    /**
+     * Reset timer for autosynch
+     */
+    resetAutoSynchContenu()
+    {
+
+        let casque = this;
+        if ( casque.adbConnected )
+        {
+            casque.casqueFiles = [];
+            casque.subFolders = [];
+            casque.searchFileInFolder('/sdcard/Download/contenus/');
+        }
+
+
+    }
+
+    /**
+     * Ajoute tous les fichiers trouvés à casque._files
+     * @param client
+     * @param device
+     * @param folder
+     * @param casque
+     * @returns {*}
+     */
+    searchFileInFolder(folder)
+    {
+
+
+        let casque = this;
+        Casque.adbClient.readdir(casque.deviceId, folder)
+            .then(function(files) {
+
+                var index = casque.subFolders.indexOf(folder);
+                if(index > -1) {
+                    casque.subFolders.splice(index, 1);
+                }
+
+                files.forEach(function(file) {
+
+                    if (file.isFile()) {
+
+                        let fileFound = folder.split('/sdcard/Download/');
+                        let fileToAdd = fileFound[1]+file.name;
+                        casque.casqueFiles.push(fileToAdd);
+                    }
+                    else
+                    {
+                        let newFolder = folder+file.name+'/';
+                        casque.subFolders.push(newFolder);
+                    }
+
+                });
+
+                if(casque.subFolders.length > 0)
+                {
+                    casque.searchFileInFolder(casque.subFolders[casque.subFolders.length-1]);
+                } else {
+                    casque.triggerSynch();
+                }
+
+            });
+
+
+    }
+
+    /**
+     * Synchronise les contenus qui doivent l'être sur le casques
+     */
+    _syncContenus(){
+        //console.warn('syncing contenu on device ' + this.deviceId + ' n '+this.identifier);
+        let casque=this;
+        let localsynchro = true;
+
+        if ( this.isSynchroBusy )
+        {
+            return false;
+        }
+
+        if ( casque.casqueFiles === null )
+        {
+            this.isSyncro = false;
+            return false;
+        }
+
+
+        //console.log("Synchro contenu ?");
+        //console.log("Casque.configJson.contenusCopied",Casque.configJson.contenusCopied);
+        //console.log("casque._files",casque._files);
+
+
+        //ajoute les fichiers
+        for (var file in Casque.configJson.contenusCopied) {
+            if (Casque.configJson.contenusCopied.hasOwnProperty(file)) {
+                if(!this._fileExists(file)){
+
+                    localsynchro = false;
+                    if ( canUseSynchro === false )
+                    {
+                        this.isSyncro = false;
+                        return false;
+                    }
+                    if(this.adbConnected){
+                        console.warn("Ajout du contenu " + file + "sur le casque " + casque.identifier);
+                        this.isSynchroBusy= true;
+                        canUseSynchro = false;
+                        casque._adbPushFile(file);
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+        //efface les fichiers innutiles
+        for (var casqueFile of casque.casqueFiles) {
+            if (!Casque.configJson.contenusCopied[casqueFile]) {
+
+                if(this._fileExists(file)) {
+                    localsynchro = false;
+                    if ( canUseSynchro === false )
+                    {
+                        this.isSyncro = false;
+                        return false;
+                    }
+                    if(this.adbConnected) {
+                        console.log("Suppression contenu " + file + "sur le casque "+ casque.identifier);
+                        this.isSynchroBusy = true;
+                        canUseSynchro = false;
+                        casque._adbDelete(casqueFile);
+                        return false;
+                    }
+
+                }
+            }
+        }
+
+        this.isSyncro=localsynchro;
+        console.log("Synchro Ok");
+
+
+
+        this.refreshDisplay();
+        return true;
+    }
+
+    /**
+     *met pause sur un casque et vide la miniature
+     */
+    pauseCasque(casque){
+
+
+        var tmp = new ServerMessage();
+        tmp.id = casque.identifier;
+        tmp.stopsession = true;
+        io.to(casque.sockID).emit('chat' , tmp );
+        casque.$contenuImg.attr("src", null);
+        casque.$contenuName.text('');
+        casque.contenu = null;
+        console.error("this.sockID = ", casque.sockID, " stopped");
+    }
+
 
 
     /**
@@ -529,29 +715,63 @@ class Casque extends CasqueModel{
         }
         else {
             console.error("Le casque ayant pour numéro "+identifier+" n'existe pas");
+            var msg = 'Choississez une options pour le casque '+identifier+'.';
             const dialog = require('electron').remote.dialog;
             const options = {
                 type: 'question',
-                buttons: ["annuler",'1', '2', '3', '4', '5'],
+                buttons: ["annuler",'créer un casque','éditer un casque'],
                 defaultId: 5,
                 title: 'Question',
-                message: 'Veuillez inquer la position du casque que vous vennez de connecter pour la première fois'
+                message: msg
             };
             dialog.showMessageBox(null, options, (response) => {
                 if (response === 0) {
                     return null;
                 }else {
-                    let s = "000000" + response;
-                    s = s.substr(s.length-2);
-                    Casque.configJson.casques[identifier] = {
-                        "identifier":identifier
-                    };
-                    Casque._saveConfig();
-                    console.error(" reboat app to add the device");
-                    Casque.initAll();
-                    return null;
+                    if (response === 1) {
+                        Casque.configJson.casques[identifier] = {
+                            "identifier": identifier
+                        };
+                        Casque._saveConfig();
+                        setTimeout(function () {
+                            return Casque._initJSON();
+                        }, 1000);
+                    }
+                    else {
+                        let btns = ['annuler'];
+                        let deviceIDs = [];
+                        for (let deviceId in Casque.configJson.casques) {
+                            if (!Casque.configJson.casques.hasOwnProperty(deviceId)) continue;
+                            btns.push(deviceId+' numero : ' +Casque.configJson.casques[deviceId].identifier);
+                            deviceIDs.push(deviceId);
+                        }
+                        var msg = 'Veuillez inquer le numéro du casque à remplacer par le numero' + identifier;
+                        const dialog = require('electron').remote.dialog;
+                        const options = {
+                            type: 'question',
+                            buttons: btns,
+                            defaultId: 5,
+                            title: 'Question',
+                            message: msg
+                        };
+                        dialog.showMessageBox(null, options, (response) => {
+                            if (response === 0) {
+                                return null;
+                            }else {
+                                Casque.configJson.casques[deviceIDs[response-1]] = {
+                                    "identifier":identifier
+                                };
+                                Casque._saveConfig();
+                                setTimeout(function(){
+                                    console.error('Reload ConfigCasque.json')
+                                    return Casque._initJSON();
+                                }, 1000);
+                            }
+                        }); // end dialog 2
+                    }
+
                 }
-            });
+            }); // end dialog 1
         }
 
     }
@@ -565,7 +785,6 @@ class Casque extends CasqueModel{
      * @return {Casque}
      */
     static getCasqueByDeviceId(deviceId) {
-        console.log("deviceId", deviceId);
         if (Casque.allByDeviceId[deviceId]) {
             return Casque.allByDeviceId[deviceId];
         }
@@ -574,46 +793,109 @@ class Casque extends CasqueModel{
         }
         else {
 
-            var btns = ['annuler']
-            for (let deviceId in Casque.configJson.casques) {
-                if (!Casque.configJson.casques.hasOwnProperty(deviceId)) continue;
-                btns.push(deviceId);
-            }
 
+            console.error("Le casque ayant pour id "+deviceId+" n'existe pas");
+            var msg = 'Choississez une options pour le casque '+deviceId+'.';
             const dialog = require('electron').remote.dialog;
             const options = {
                 type: 'question',
-                buttons: btns,
+                buttons: ["annuler",'créer un casque','éditer un casque'],
                 defaultId: 5,
                 title: 'Question',
-                message: 'Veuillez inquer le numéro du casque que vous vennez de brancher pour la première fois'
+                message: msg
             };
             dialog.showMessageBox(null, options, (response) => {
                 if (response === 0) {
                     return null;
-                }else {
-                    let s = "000000" + btns[response];
-                    s = s.substr(s.length-2);
-                    Casque.configJson.casques[deviceId] = {
-                        "identifier":s
-                    };
-                    Casque._saveConfig();
-                    Casque.initAll();
-                    return Casque.getCasqueByDeviceId(deviceId);
+                } else {
+                    if (response === 1) {
+                        Casque.configJson.casques[deviceId] = {
+                            "identifier": 'xx'
+                        };
+                        Casque._saveConfig();
+                        setTimeout(function () {
+                            return Casque._initJSON();
+                        }, 1000);
+                    }
+                    else {
+
+                        var btns = ['annuler']
+                        for (let deviceId in Casque.configJson.casques) {
+                            if (!Casque.configJson.casques.hasOwnProperty(deviceId)) continue;
+                            btns.push(Casque.configJson.casques[deviceId].identifier);
+                        }
+
+                        var msg = 'Veuillez inquer le numéro du casque adb ' + deviceId + ' ';
+                        const dialog = require('electron').remote.dialog;
+                        const options = {
+                            type: 'question',
+                            buttons: btns,
+                            defaultId: 5,
+                            title: 'Question',
+                            message: msg
+                        };
+                        dialog.showMessageBox(null, options, (response) => {
+                            if (response === 0) {
+                                return null;
+                            }
+                            else {
+                                for (let localDeviceId in Casque.configJson.casques) {
+                                    console.log('identifier = ' + Casque.configJson.casques[localDeviceId].identifier + ' & btns reposne = ' + btns[response]);
+                                    if (Casque.configJson.casques[localDeviceId].identifier === btns[response]) {
+
+                                        delete Casque.configJson.casques[localDeviceId];
+                                        Casque.configJson.casques[deviceId] = {
+                                            "identifier": btns[response]
+                                        };
+                                    }
+                                }
+
+
+                                Casque._saveConfig();
+                                setTimeout(function () {
+
+                                    Casque._initJSON();
+                                    return Casque.getCasqueByDeviceId(deviceId);
+
+                                }, 1000);
+                                //return
+                            }
+                        }); // end dialog 2
+                    }
                 }
-            });
+            }); // end dialog 1
+
         }
     }
 
     /**
-     * Initialise la liste des casques, lance les écouteurs ADB et socket etc...
+     * Initialise la liste des casques , lance les écouteurs ADB et socket etc...
      */
     static initAll() {
+
+        //initilise les casques à partir du JSON
+        Casque._initJSON();
+        //initilise les écouteurs ADB
+        Casque._initADB();
+        //initialise les échanges socket
+        setTimeout(function(){
+
+            Casque._initSocket();
+
+        }, 1000);
+
+    }
+
+    /**
+     *Initialise la liste des casques
+     */
+    static _initJSON() {
+
         //teste si le json existe
         if (!fs.existsSync(window.machine.jsonCasquesConfigPath)) {
             //save le config vierge
             Casque._saveConfig();
-            return Casque.initAll(); //appel récursif
+            return Casque._initJSON(); //appel récursif
         }
         let json = fs.readFileSync(window.machine.jsonCasquesConfigPath);
         json=JSON.parse(json);
@@ -621,7 +903,7 @@ class Casque extends CasqueModel{
         if(typeof json !== 'object' || !json.casques){
             //si incorrecte efface le json et le recréra proprement au prochaiun appel.
             fs.unlinkSync(window.machine.jsonCasquesConfigPath);
-            return Casque.initAll(); //appel récursif
+            return Casque._initJSON(); //appel récursif
         }
 
         //si tout va bien on va utiliser la config chargée
@@ -632,15 +914,6 @@ class Casque extends CasqueModel{
             if (!Casque.configJson.casques.hasOwnProperty(deviceId)) continue;
             Casque.getCasqueByDeviceId(deviceId);
         }
-        //initilise les écouteurs ADB
-        Casque._initADB();
-        //initialise les échanges socket
-        setTimeout(function(){
-
-            Casque._initSocket();
-
-        }, 1000);
-
     }
 
     /**
@@ -655,28 +928,36 @@ class Casque extends CasqueModel{
             .then(function (tracker) {
                 tracker.on('add', function (device) {
 
-                    console.log('Device %s was plugged in', device.id);
+                    setTimeout(function(){
+                        console.log('Device %s was plugged in', device.id);
 
-                    let casque=Casque.getCasqueByDeviceId(device.id);
-                    if(casque){
-                        casque.adbConnected=true;
-                        casque.refreshDisplay();
-                    }else{
-                        console.error("casque "+device.id+" n'est pas référencé")
-                    }
+                        let casque=Casque.getCasqueByDeviceId(device.id);
+                        if(casque){
+                            casque.adbConnected=true;
+                            casque.refreshDisplay();
+                            casque.resetAutoSynchContenu();
+                        }else{
+                            console.error("casque "+device.id+" n'est pas référencé")
+                        }
+                    },1000)
+
 
 
                 });
                 tracker.on('remove', function (device) {
                     console.log('Device %s was unplugged', device.id);
                     let casque=Casque.getCasqueByDeviceId(device.id);
-                    casque.adbConnected=false;
-                    if ( casque.isSynchroBusy )
-                    {
-                        casque.isSynchroBusy=false;
-                        canUseSynchro = true;
+                    if(casque){
+                        clearTimeout(casque.refreshTimeoutId);
+                        casque.adbConnected=false;
+                        if ( casque.isSynchroBusy )
+                        {
+                            casque.isSynchroBusy=false;
+                            canUseSynchro = true;
+                        }
+                    }else{
+                        console.error("casque "+device.id+" n'est pas référencé")
                     }
-
 
                     casque.refreshDisplay();
                 });
@@ -696,9 +977,14 @@ class Casque extends CasqueModel{
      */
     static _initSocket(){
 
+
+        http.close();
+
         http.listen(3000, function(){
             console.log('listening on *:3000');
         });
+
+
 
         io.on('connection', function(socket){
             let identifier = socket.handshake.address.toString().substring(socket.handshake.address.toString().length-2 , socket.handshake.address.toString().length);
@@ -709,7 +995,6 @@ class Casque extends CasqueModel{
             }
             casque.sockID = socket.id;
             io.to(socket.id).emit('setid', identifier );
-
 
 
             setTimeout(function(){
@@ -744,30 +1029,34 @@ class Casque extends CasqueModel{
                     }
 
 
-                    if ( json.fileList && json.fileList.length)
+                    //ANCIENNE METHODE DE GESTION DE FICHIERS
+                    if ( !casque.adbConnected && json.fileList && json.fileList.length)
                     {
-                        casque._files =json.fileList;
+                        casque.casqueFiles =json.fileList;
                         //console.log(casque._files);
                         for ( let i = 0 ; i<casque._files.length ;  i++)
                         {
-                            casque._files[i] =casque._files[i].split("\\").join("/");
+                            casque.casqueFiles[i] =casque.casqueFiles[i].split("\\").join("/");
+                            console.log( 'casque file n'+i+' = ' + casque.casqueFiles[i] );
                         }
+                        casque._syncContenus();
+
                     }
                     else
                     {
                         casque._files = null;
                     }
 
+
                     if ( json.msg === "Application Pause")
                     {
                         casque.socketConnected=0;
+                        if(casque.isSelected())
+                        {
+                            casque.toggleSelected();
+                        }
+
                     }
-
-
-
-                    casque._syncContenus();
-
-                    //console.error(casque._files);
                     casque.refreshDisplay();
                 }
 
@@ -783,6 +1072,7 @@ class Casque extends CasqueModel{
                         casque.toggleSelected();
                     }
                     casque.socketConnected = 0;
+                    casque.pauseCasque(casque);
                     console.log('user disconnected '+ identifier);
                 }
 
@@ -921,82 +1211,6 @@ class Casque extends CasqueModel{
     }
 
     /**
-     * Synchronise les contenus qui doivent l'être sur le casques
-     */
-    _syncContenus(){
-        let casque=this;
-        let localsynchro = true;
-
-        if ( this.isSynchroBusy )
-        {
-            return false;
-        }
-
-        if ( this._files === null )
-        {
-            this.isSyncro = false;
-            return false;
-        }
-
-        //console.log("Synchro contenu ?");
-        //console.log("Casque.configJson.contenusCopied",Casque.configJson.contenusCopied);
-        //console.log("casque._files",casque._files);
-
-        //ajoute les fichiers
-        for (var file in Casque.configJson.contenusCopied) {
-            if (Casque.configJson.contenusCopied.hasOwnProperty(file)) {
-                if(!this._fileExists(file)){
-                    localsynchro = false;
-                    if ( canUseSynchro === false )
-                    {
-                        this.isSyncro = false;
-                        return false;
-                    }
-                    if(this.adbConnected){
-                        console.log("Ajout de contenu");
-                        this.isSynchroBusy= true;
-                        canUseSynchro = false;
-
-                        casque._adbPushFile(file);
-                        return false;
-                    }
-                }
-            }
-        }
-
-
-        //efface les fichiers innutiles
-        for (var casqueFile of casque._files) {
-                if (!Casque.configJson.contenusCopied[casqueFile]) {
-                    if(this._fileExists(file)) {
-                        localsynchro = false;
-                        if ( canUseSynchro === false )
-                        {
-                            this.isSyncro = false;
-                            return false;
-                        }
-                        if(this.adbConnected) {
-                            console.log("Suppression contenu");
-                            this.isSynchroBusy = true;
-                            canUseSynchro = false;
-                            casque._adbDelete(casqueFile);
-                            return false;
-                        }
-
-                    }
-                }
-        }
-
-        this.isSyncro=localsynchro;
-        console.log("Synchro Ok");
-
-
-
-        this.refreshDisplay();
-        return true;
-    }
-
-    /**
      * Dit si un contenu est copié sur tous les casques ou pas
      * (se base sur le json pour dire ça)
      * @param {ContenuModel} contenu
@@ -1017,7 +1231,21 @@ class Casque extends CasqueModel{
 
         var tmp = new ServerMessage();
 
-
+        // check si tous les casques ont un contenu
+        for(let i in Casque.selecteds() ){
+            let casque=Casque.selecteds()[i];
+            if ( casque.contenu === null )
+            {
+                Swal.fire({
+                    title: "Attention",
+                    html: "Attribuer un contenu à tous les casques sélectionnés avant de commencer",
+                    timer: 5000,
+                    type:"error",
+                    showConfirmButton: false
+                });
+                return null;
+            }
+        }
 
 
         Swal.fire({
@@ -1033,6 +1261,7 @@ class Casque extends CasqueModel{
             .then(validPlay => {
 
                 if (validPlay.value ) {
+
 
                     switch (duration) {
                         case "":
@@ -1134,11 +1363,7 @@ class Casque extends CasqueModel{
                     for(let i in Casque.selecteds() ){
                         let casque=Casque.selecteds()[i];
                         numeros.push(Casque.selecteds()[i].identifier);
-                        var tmp = new ServerMessage();
-                        tmp.id = casque.identifier;
-                        tmp.stopsession = true;
-                        io.to(casque.sockID).emit('chat' , tmp );
-                        console.error("this.sockID = ", casque.sockID, " stopped");
+                        casque.pauseCasque(casque);
                     }
                 }
 
