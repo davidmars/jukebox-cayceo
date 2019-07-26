@@ -4,11 +4,9 @@
     <bookmark url="file://$PROJECT_DIR$/jukebox/actions-menu.html" line="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3091b1bd-7c8e-4af2-817b-77cea2182e6a" name="Default" comment="L'orthographe bordel !&#10;">
+    <list default="true" id="3091b1bd-7c8e-4af2-817b-77cea2182e6a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jukebox/casque/Casque.js" afterPath="$PROJECT_DIR$/jukebox/casque/Casque.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/renderer.js" afterPath="$PROJECT_DIR$/renderer.js" />
     </list>
     <ignored path="jukebox-cayceo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,8 +31,8 @@
       <file leaf-file-name="Casque.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jukebox/casque/Casque.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36878452">
-              <caret line="1032" column="26" selection-start-line="1032" selection-start-column="26" selection-end-line="1032" selection-end-column="26" />
+            <state vertical-scroll-proportion="1.1752988">
+              <caret line="90" column="9" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
               <folding>
                 <element signature="n#!!doc;n#addContenu#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#addContenu#0;n#Casque#0" expanded="false" />
@@ -85,6 +83,7 @@
                 <element signature="n#!!doc;n#_initADB#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#_initADB#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_initSocket#0;n#Casque#0" expanded="false" />
+                <element signature="n#!!block;n#_initSocket#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_saveConfig#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#_saveConfig#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#selecteds#0;n#Casque#0" expanded="false" />
@@ -106,13 +105,14 @@
                 <element signature="n#!!doc;n#playAllSelectedComfirmed#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#playAllSelectedComfirmed#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
+                <element signature="n#!!block;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#performTestMode#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#performTestMode#0;n#Casque#0" expanded="false" />
-                <element signature="e#43643#43748#0" expanded="false" />
-                <element signature="e#43769#43811#0" expanded="false" />
-                <element signature="e#43813#43871#0" expanded="false" />
-                <element signature="e#43889#43944#0" expanded="false" />
-                <element signature="e#43972#44036#0" expanded="false" />
+                <element signature="e#43862#43967#0" expanded="false" />
+                <element signature="e#43988#44030#0" expanded="false" />
+                <element signature="e#44032#44090#0" expanded="false" />
+                <element signature="e#44108#44163#0" expanded="false" />
+                <element signature="e#44191#44255#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -456,7 +456,13 @@
       <option name="project" value="LOCAL" />
       <updated>1556539735381</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="UTILISATION&#10;- gestion des fichiers via ADB&#10;- déselection au passage en veille&#10;- unload du contenu au stop et à la déconnexion&#10;- check fichiers via wifi seulement si adb pas connecté&#10;- mise à jour automatique des fichiers via ADB même si casque en veille&#10;- ajout d'un delai d'1s pour éviter casque offline ou unauthorized en ADB&#10;&#10;DEBUG:&#10;- Ajout de fenètre de dialogue pour :&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en wifi&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en ADB&#10;&#10;A FAIRE :&#10;recharger le visuel de l'appli apres une modification ou ajout de casque, pour le moment l'appli doit être redemarrer.&#10;">
+      <created>1564144256071</created>
+      <option name="number" value="00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1564144256071</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -472,20 +478,20 @@
     <frame x="-1928" y="5" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17537314" sideWeight="0.5915493" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15476191" sideWeight="0.53038377" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15692641" sideWeight="0.49573562" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17537314" sideWeight="0.4084507" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="npm" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17537314" sideWeight="0.4084507" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.49573562" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15476191" sideWeight="0.4696162" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.48911652" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2943723" sideWeight="0.695629" order="7" side_tool="true" content_ui="tabs" x="1928" y="551" width="1936" height="351" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17537314" sideWeight="0.5915493" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15692641" sideWeight="0.49573562" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.48911652" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1673774" sideWeight="0.3631778" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -519,16 +525,12 @@
     <MESSAGE value="Update version NB" />
     <MESSAGE value="disable testmode" />
     <MESSAGE value="L'orthographe bordel !&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="L'orthographe bordel !&#10;" />
+    <MESSAGE value="UTILISATION&#10;- gestion des fichiers via ADB&#10;- déselection au passage en veille&#10;- unload du contenu au stop et à la déconnexion&#10;- check fichiers via wifi seulement si adb pas connecté&#10;- mise à jour automatique des fichiers via ADB même si casque en veille&#10;- ajout d'un delai d'1s pour éviter casque offline ou unauthorized en ADB&#10;&#10;DEBUG:&#10;- Ajout de fenètre de dialogue pour :&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en wifi&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en ADB&#10;&#10;A FAIRE :&#10;recharger le visuel de l'appli apres une modification ou ajout de casque, pour le moment l'appli doit être redemarrer.&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="UTILISATION&#10;- gestion des fichiers via ADB&#10;- déselection au passage en veille&#10;- unload du contenu au stop et à la déconnexion&#10;- check fichiers via wifi seulement si adb pas connecté&#10;- mise à jour automatique des fichiers via ADB même si casque en veille&#10;- ajout d'un delai d'1s pour éviter casque offline ou unauthorized en ADB&#10;&#10;DEBUG:&#10;- Ajout de fenètre de dialogue pour :&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en wifi&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en ADB&#10;&#10;A FAIRE :&#10;recharger le visuel de l'appli apres une modification ou ajout de casque, pour le moment l'appli doit être redemarrer.&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>711</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
           <line>921</line>
@@ -536,12 +538,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>977</line>
+          <line>978</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>357</line>
+          <line>355</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -561,11 +563,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>1066</line>
+          <line>1068</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
+          <line>711</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="31" />
+      <option name="time" value="32" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -642,6 +649,7 @@
             <element signature="n#!!doc;n#_initADB#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_initADB#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_initSocket#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!block;n#_initSocket#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#selecteds#0;n#Casque#0" expanded="false" />
@@ -663,13 +671,14 @@
             <element signature="n#!!doc;n#playAllSelectedComfirmed#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#playAllSelectedComfirmed#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!block;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#performTestMode#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#performTestMode#0;n#Casque#0" expanded="false" />
-            <element signature="e#43643#43748#0" expanded="false" />
-            <element signature="e#43769#43811#0" expanded="false" />
-            <element signature="e#43813#43871#0" expanded="false" />
-            <element signature="e#43889#43944#0" expanded="false" />
-            <element signature="e#43972#44036#0" expanded="false" />
+            <element signature="e#43862#43967#0" expanded="false" />
+            <element signature="e#43988#44030#0" expanded="false" />
+            <element signature="e#44032#44090#0" expanded="false" />
+            <element signature="e#44108#44163#0" expanded="false" />
+            <element signature="e#44191#44255#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1039,8 +1048,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jukebox/casque/Casque.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36878452">
-          <caret line="1032" column="26" selection-start-line="1032" selection-start-column="26" selection-end-line="1032" selection-end-column="26" />
+        <state vertical-scroll-proportion="1.1752988">
+          <caret line="90" column="9" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
           <folding>
             <element signature="n#!!doc;n#addContenu#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#addContenu#0;n#Casque#0" expanded="false" />
@@ -1091,6 +1100,7 @@
             <element signature="n#!!doc;n#_initADB#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_initADB#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_initSocket#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!block;n#_initSocket#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#selecteds#0;n#Casque#0" expanded="false" />
@@ -1112,13 +1122,14 @@
             <element signature="n#!!doc;n#playAllSelectedComfirmed#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#playAllSelectedComfirmed#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!block;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#performTestMode#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#performTestMode#0;n#Casque#0" expanded="false" />
-            <element signature="e#43643#43748#0" expanded="false" />
-            <element signature="e#43769#43811#0" expanded="false" />
-            <element signature="e#43813#43871#0" expanded="false" />
-            <element signature="e#43889#43944#0" expanded="false" />
-            <element signature="e#43972#44036#0" expanded="false" />
+            <element signature="e#43862#43967#0" expanded="false" />
+            <element signature="e#43988#44030#0" expanded="false" />
+            <element signature="e#44032#44090#0" expanded="false" />
+            <element signature="e#44108#44163#0" expanded="false" />
+            <element signature="e#44191#44255#0" expanded="false" />
           </folding>
         </state>
       </provider>

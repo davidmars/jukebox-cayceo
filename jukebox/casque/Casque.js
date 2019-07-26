@@ -89,7 +89,6 @@ class Casque extends CasqueModel{
             me.socketConnected=2000;
             me.isSyncro=true;
         }
-
     }
 
     /**
@@ -145,7 +144,6 @@ class Casque extends CasqueModel{
     _fileExists(file){
        return this.casqueFiles.indexOf(file)> -1;
     }
-
 
     /**
      *
@@ -639,20 +637,23 @@ class Casque extends CasqueModel{
     /**
      *met pause sur un casque et vide la miniature
      */
-    pauseCasque(casque){
+    pauseCasque(){
 
+        let casque = this ;
+        if ( casque.socketConnected > 0 )
+        {
+            var tmp = new ServerMessage();
+            tmp.id = casque.identifier;
+            tmp.stopsession = true;
+            io.to(casque.sockID).emit('chat' , tmp );
+            console.error("this.sockID = ", casque.sockID, " stopped");
+        }
 
-        var tmp = new ServerMessage();
-        tmp.id = casque.identifier;
-        tmp.stopsession = true;
-        io.to(casque.sockID).emit('chat' , tmp );
         casque.$contenuImg.attr("src", null);
         casque.$contenuName.text('');
         casque.contenu = null;
-        console.error("this.sockID = ", casque.sockID, " stopped");
+
     }
-
-
 
     /**
      * Convertit des secondes en heures minutes secondes
@@ -699,7 +700,6 @@ class Casque extends CasqueModel{
     static toMM(timeSeconds, h = true, m = true, s = true) {
         return Math.round(timeSeconds / 60);
     }
-
 
     //-----------------statiques---------------------------------------
 
@@ -935,6 +935,7 @@ class Casque extends CasqueModel{
                         if(casque){
                             casque.adbConnected=true;
                             casque.refreshDisplay();
+                            casque.pauseCasque(casque);
                             casque.resetAutoSynchContenu();
                         }else{
                             console.error("casque "+device.id+" n'est pas référencé")
@@ -1029,11 +1030,12 @@ class Casque extends CasqueModel{
                     }
 
 
-                    //ANCIENNE METHODE DE GESTION DE FICHIERS
-                    if ( !casque.adbConnected && json.fileList && json.fileList.length)
+                    /**
+                     * ANCIENNE METHODE DE GESTION DE FICHIERS appeler en plus hors adb et si casque._files null
+                     */
+                    if ( !casque.adbConnected && casque._files  && json.fileList && json.fileList.length)
                     {
                         casque.casqueFiles =json.fileList;
-                        //console.log(casque._files);
                         for ( let i = 0 ; i<casque._files.length ;  i++)
                         {
                             casque.casqueFiles[i] =casque.casqueFiles[i].split("\\").join("/");
