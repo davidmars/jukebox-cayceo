@@ -276,14 +276,6 @@ class Casque extends CasqueModel{
 
     /**
      *
-     * @private
-     */
-    _adbGetFiles(Path){
-
-    }
-
-    /**
-     *
      * Génère de fausses données pour tester
      * @private
      */
@@ -804,7 +796,8 @@ class Casque extends CasqueModel{
                 title: 'Question',
                 message: msg
             };
-            dialog.showMessageBox(null, options, (response) => {
+            dialog.showMessageBox(null, options, (response) =>
+            {
                 if (response === 0) {
                     return null;
                 } else {
@@ -819,7 +812,7 @@ class Casque extends CasqueModel{
                     }
                     else {
 
-                        var btns = ['annuler']
+                        var btns = ['annuler'];
                         for (let deviceId in Casque.configJson.casques) {
                             if (!Casque.configJson.casques.hasOwnProperty(deviceId)) continue;
                             btns.push(Casque.configJson.casques[deviceId].identifier);
@@ -920,6 +913,7 @@ class Casque extends CasqueModel{
      * Initialise l'écoute ADB
      */
     static _initADB() {
+
         let adb = require('adbkit');
         let Promise = require('bluebird');
         Casque.adbClient = adb.createClient();
@@ -1033,9 +1027,9 @@ class Casque extends CasqueModel{
                     /**
                      * ANCIENNE METHODE DE GESTION DE FICHIERS appeler en plus hors adb et si casque._files null
                      */
-                    if ( !casque.adbConnected && casque._files  && json.fileList && json.fileList.length)
+                    if ( !casque.adbConnected && casque._files && json.fileList && json.fileList.length)
                     {
-                        casque.casqueFiles =json.fileList;
+                        casque.casqueFiles = json.fileList;
                         for ( let i = 0 ; i<casque._files.length ;  i++)
                         {
                             casque.casqueFiles[i] =casque.casqueFiles[i].split("\\").join("/");
@@ -1085,6 +1079,18 @@ class Casque extends CasqueModel{
 
 
     }
+
+
+    /**
+     * supprime un casque du fichier casque-config.json
+     *
+     */
+    static deleteCasqueById(DeviceId)
+    {
+        delete Casque.configJson.casques[DeviceId];
+        Casque._saveConfig();
+    }
+
 
     /**
      * Enregistre la configuration des casques dans le json

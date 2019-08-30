@@ -25,6 +25,57 @@ class UI{
            me.exitApp();
         });
 
+
+        $nav.on("click",".js-close-delete",function(){
+            var btns = ['annuler']
+            for (let deviceId in Casque.configJson.casques) {
+                if (!Casque.configJson.casques.hasOwnProperty(deviceId)) continue;
+                btns.push(Casque.configJson.casques[deviceId].identifier);
+            }
+            const dialog = require('electron').remote.dialog;
+            const options = {
+                type: 'question',
+                buttons: btns,
+                defaultId: 5,
+                title: 'Question',
+                message: 'quel casque voulez vous supprimer ?'
+            };
+
+            dialog.showMessageBox(null, options, (response) =>
+            {
+
+                if (response === 0) {
+                    return null;
+                }
+                else {
+                    var DeviceId =  Casque.getCasqueByIdentifier(btns[response]).deviceId ;
+                    var msg = "êtes vous sur de vouloir supprimer "+DeviceId+" ?";
+                    const dialog = require('electron').remote.dialog;
+                    const options = {
+                        type: 'question',
+                        buttons: ["oui","non"],
+                        defaultId: 1,
+                        title: 'Question',
+                        message: msg
+                    };
+                    dialog.showMessageBox(null, options, (response) => {
+                        if (response === 1) {
+                            return null;
+                        }
+                        else {
+
+                            console.warn( "deleteing casque");
+                            Casque.deleteCasqueById(DeviceId);
+
+
+                        }
+                    }); // end dialog 2
+                }
+
+
+            }); // end dialog 1
+        });
+
         //charge le catalogue
         this.chargeCatalogueOnline();
         //initialise les écouteurs

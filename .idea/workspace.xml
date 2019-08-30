@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/jukebox/actions-menu.html" line="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3091b1bd-7c8e-4af2-817b-77cea2182e6a" name="Default" comment="">
+    <list default="true" id="3091b1bd-7c8e-4af2-817b-77cea2182e6a" name="Default" comment="Add fonction deleteCasqueById , delete a casque on casques-config.json">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jukebox/UI.js" afterPath="$PROJECT_DIR$/jukebox/UI.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jukebox/casque/Casque.js" afterPath="$PROJECT_DIR$/jukebox/casque/Casque.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jukebox/nav.html" afterPath="$PROJECT_DIR$/jukebox/nav.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="jukebox-cayceo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,22 +34,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Casque.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Casque.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jukebox/casque/Casque.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1752988">
-              <caret line="90" column="9" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1431" column="0" selection-start-line="1431" selection-start-column="0" selection-end-line="1431" selection-end-column="0" />
               <folding>
+                <element signature="n#!!block;n#constructor#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#addContenu#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#addContenu#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_fileExists#0;n#Casque#0" expanded="false" />
-                <element signature="n#!!block;n#_fileExists#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_adbPushFile#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#_adbPushFile#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_adbDelete#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#_adbDelete#0;n#Casque#0" expanded="false" />
-                <element signature="n#!!doc;n#_adbGetFiles#0;n#Casque#0" expanded="false" />
-                <element signature="n#!!block;n#_adbGetFiles#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_fakeData#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#_fakeData#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#isSelected#0;n#Casque#0" expanded="false" />
@@ -84,6 +88,8 @@
                 <element signature="n#!!block;n#_initADB#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_initSocket#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#_initSocket#0;n#Casque#0" expanded="false" />
+                <element signature="n#!!doc;n#deleteCasqueById#0;n#Casque#0" expanded="false" />
+                <element signature="n#!!block;n#deleteCasqueById#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#_saveConfig#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#_saveConfig#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#selecteds#0;n#Casque#0" expanded="false" />
@@ -108,74 +114,12 @@
                 <element signature="n#!!block;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!doc;n#performTestMode#0;n#Casque#0" expanded="false" />
                 <element signature="n#!!block;n#performTestMode#0;n#Casque#0" expanded="false" />
-                <element signature="e#43862#43967#0" expanded="false" />
-                <element signature="e#43988#44030#0" expanded="false" />
-                <element signature="e#44032#44090#0" expanded="false" />
-                <element signature="e#44108#44163#0" expanded="false" />
-                <element signature="e#44191#44255#0" expanded="false" />
+                <element signature="e#44019#44124#0" expanded="false" />
+                <element signature="e#44145#44187#0" expanded="false" />
+                <element signature="e#44189#44247#0" expanded="false" />
+                <element signature="e#44265#44320#0" expanded="false" />
+                <element signature="e#44348#44412#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="client.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/adbkit/lib/adb/client.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="529" column="9" selection-start-line="529" selection-start-column="9" selection-end-line="529" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sync.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/adbkit/lib/adb/sync.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="72" column="2" selection-start-line="72" selection-start-column="2" selection-end-line="72" selection-end-column="2" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="adb.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/adbkit/lib/adb.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CasqueModel.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/jukebox-js-libs/CasqueModel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="renderer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/renderer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="67" column="29" selection-start-line="67" selection-start-column="29" selection-end-line="67" selection-end-column="29" />
-              <folding>
-                <marker date="1563875401563" expanded="true" signature="3839:3939" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Machine.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/jukebox-js-libs/utils/Machine.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -184,27 +128,37 @@
         <entry file="file://$PROJECT_DIR$/jukebox/UI.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="249" column="36" selection-start-line="249" selection-start-column="36" selection-end-line="249" selection-end-column="36" />
+              <caret line="60" column="72" selection-start-line="60" selection-start-column="72" selection-end-line="60" selection-end-column="72" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="nav.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jukebox/nav.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-28.115385">
-              <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
+            <state vertical-scroll-proportion="-16.192308">
+              <caret line="43" column="52" selection-start-line="43" selection-start-column="52" selection-end-line="43" selection-end-column="52" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.769231">
-              <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.6495017">
+              <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package-lock.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package-lock.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -228,13 +182,14 @@
         <option value="$PROJECT_DIR$/main.less" />
         <option value="$PROJECT_DIR$/jukebox/contenu/ContenuModel.js" />
         <option value="$PROJECT_DIR$/jukebox/casque/casque.less" />
-        <option value="$PROJECT_DIR$/jukebox/nav.html" />
         <option value="$PROJECT_DIR$/jukebox/actions-menu.html" />
         <option value="$PROJECT_DIR$/jukebox/actions-menu.less" />
         <option value="$PROJECT_DIR$/renderer.js" />
         <option value="$PROJECT_DIR$/node_modules/jukebox-js-libs/CasqueModel.js" />
-        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/jukebox/UI.js" />
+        <option value="$PROJECT_DIR$/jukebox/nav.html" />
         <option value="$PROJECT_DIR$/jukebox/casque/Casque.js" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -250,8 +205,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1928" />
-    <option name="y" value="5" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -296,6 +251,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -314,10 +271,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jukebox-cayceo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jukebox-cayceo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jukebox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jukebox-cayceo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jukebox-cayceo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jukebox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nav" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -462,7 +449,13 @@
       <option name="project" value="LOCAL" />
       <updated>1564144256071</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Envoi un stop au branchement ADB">
+      <created>1564151730308</created>
+      <option name="number" value="00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1564151730308</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -475,23 +468,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="5" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18017058" sideWeight="0.55640244" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15476191" sideWeight="0.53038377" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="npm" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17537314" sideWeight="0.4084507" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.49573562" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15476191" sideWeight="0.4696162" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2943723" sideWeight="0.695629" order="7" side_tool="true" content_ui="tabs" x="1928" y="551" width="1936" height="351" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17537314" sideWeight="0.5915493" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15476191" sideWeight="0.53038377" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15692641" sideWeight="0.49573562" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.48911652" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1673774" sideWeight="0.3631778" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3961039" sideWeight="0.49573562" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18017058" sideWeight="0.44359756" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.49573562" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2892741" sideWeight="0.4696162" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.6753049" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2943723" sideWeight="0.695629" order="9" side_tool="true" content_ui="tabs" x="1928" y="551" width="1936" height="351" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1673774" sideWeight="0.3631778" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -526,49 +519,46 @@
     <MESSAGE value="disable testmode" />
     <MESSAGE value="L'orthographe bordel !&#10;" />
     <MESSAGE value="UTILISATION&#10;- gestion des fichiers via ADB&#10;- déselection au passage en veille&#10;- unload du contenu au stop et à la déconnexion&#10;- check fichiers via wifi seulement si adb pas connecté&#10;- mise à jour automatique des fichiers via ADB même si casque en veille&#10;- ajout d'un delai d'1s pour éviter casque offline ou unauthorized en ADB&#10;&#10;DEBUG:&#10;- Ajout de fenètre de dialogue pour :&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en wifi&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en ADB&#10;&#10;A FAIRE :&#10;recharger le visuel de l'appli apres une modification ou ajout de casque, pour le moment l'appli doit être redemarrer.&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="UTILISATION&#10;- gestion des fichiers via ADB&#10;- déselection au passage en veille&#10;- unload du contenu au stop et à la déconnexion&#10;- check fichiers via wifi seulement si adb pas connecté&#10;- mise à jour automatique des fichiers via ADB même si casque en veille&#10;- ajout d'un delai d'1s pour éviter casque offline ou unauthorized en ADB&#10;&#10;DEBUG:&#10;- Ajout de fenètre de dialogue pour :&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en wifi&#10;possibilité d'ajouter ou modifier un casque lors d'une première connexion en ADB&#10;&#10;A FAIRE :&#10;recharger le visuel de l'appli apres une modification ou ajout de casque, pour le moment l'appli doit être redemarrer.&#10;" />
+    <MESSAGE value="Envoi un stop au branchement ADB" />
+    <MESSAGE value="Add fonction deleteCasqueById , delete a casque on casques-config.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add fonction deleteCasqueById , delete a casque on casques-config.json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>921</line>
+          <line>914</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>978</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>355</line>
+          <line>347</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>891</line>
+          <line>884</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>873</line>
+          <line>866</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>786</line>
+          <line>778</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>1068</line>
+          <line>1062</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/jukebox/casque/Casque.js</url>
-          <line>711</line>
+          <line>703</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
@@ -577,16 +567,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/renderer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="214" column="0" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
-          <folding>
-            <marker date="1563875401563" expanded="true" signature="3839:3939" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jukebox/UI.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -600,16 +580,14 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="n#!!block;n#constructor#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#addContenu#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#addContenu#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_fileExists#0;n#Casque#0" expanded="false" />
-            <element signature="n#!!block;n#_fileExists#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_adbPushFile#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_adbPushFile#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_adbDelete#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_adbDelete#0;n#Casque#0" expanded="false" />
-            <element signature="n#!!doc;n#_adbGetFiles#0;n#Casque#0" expanded="false" />
-            <element signature="n#!!block;n#_adbGetFiles#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_fakeData#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_fakeData#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#isSelected#0;n#Casque#0" expanded="false" />
@@ -650,6 +628,8 @@
             <element signature="n#!!block;n#_initADB#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_initSocket#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_initSocket#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteCasqueById#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCasqueById#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#selecteds#0;n#Casque#0" expanded="false" />
@@ -674,11 +654,11 @@
             <element signature="n#!!block;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#performTestMode#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#performTestMode#0;n#Casque#0" expanded="false" />
-            <element signature="e#43862#43967#0" expanded="false" />
-            <element signature="e#43988#44030#0" expanded="false" />
-            <element signature="e#44032#44090#0" expanded="false" />
-            <element signature="e#44108#44163#0" expanded="false" />
-            <element signature="e#44191#44255#0" expanded="false" />
+            <element signature="e#44019#44124#0" expanded="false" />
+            <element signature="e#44145#44187#0" expanded="false" />
+            <element signature="e#44189#44247#0" expanded="false" />
+            <element signature="e#44265#44320#0" expanded="false" />
+            <element signature="e#44348#44412#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -708,9 +688,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="23" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
-          <folding>
-            <element signature="n#style#0;n#rect#0;n#svg#0;n#button#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -765,9 +743,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="16" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
-          <folding>
-            <element signature="n#style#0;n#rect#0;n#svg#0;n#button#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -908,30 +884,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jukebox/nav.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-          <folding>
-            <element signature="n#ul#1;n#div#0;n#nav#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/svgo/.svgo.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jukebox/actions-menu.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="97" selection-start-line="26" selection-start-column="97" selection-end-line="26" selection-end-column="97" />
-          <folding>
-            <element signature="n#style#0;n#rect#0;n#svg#0;n#button#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -960,7 +916,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1010,31 +965,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.023480663">
           <caret line="1388" column="4" selection-start-line="1388" selection-start-column="4" selection-end-line="1388" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jukebox/UI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="249" column="36" selection-start-line="249" selection-start-column="36" selection-end-line="249" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-28.115385">
-          <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.769231">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1046,21 +976,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231">
+          <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jukebox/actions-menu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.0">
+          <caret line="26" column="97" selection-start-line="26" selection-start-column="97" selection-end-line="26" selection-end-column="97" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jukebox/UI.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="60" column="72" selection-start-line="60" selection-start-column="72" selection-end-line="60" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jukebox/nav.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.192308">
+          <caret line="43" column="52" selection-start-line="43" selection-start-column="52" selection-end-line="43" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/jukebox/casque/Casque.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1752988">
-          <caret line="90" column="9" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1431" column="0" selection-start-line="1431" selection-start-column="0" selection-end-line="1431" selection-end-column="0" />
           <folding>
+            <element signature="n#!!block;n#constructor#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#addContenu#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#addContenu#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_fileExists#0;n#Casque#0" expanded="false" />
-            <element signature="n#!!block;n#_fileExists#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_adbPushFile#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_adbPushFile#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_adbDelete#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_adbDelete#0;n#Casque#0" expanded="false" />
-            <element signature="n#!!doc;n#_adbGetFiles#0;n#Casque#0" expanded="false" />
-            <element signature="n#!!block;n#_adbGetFiles#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_fakeData#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_fakeData#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#isSelected#0;n#Casque#0" expanded="false" />
@@ -1101,6 +1061,8 @@
             <element signature="n#!!block;n#_initADB#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_initSocket#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_initSocket#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!doc;n#deleteCasqueById#0;n#Casque#0" expanded="false" />
+            <element signature="n#!!block;n#deleteCasqueById#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#_saveConfig#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#selecteds#0;n#Casque#0" expanded="false" />
@@ -1125,12 +1087,28 @@
             <element signature="n#!!block;n#pauseAllSelected#0;n#Casque#0" expanded="false" />
             <element signature="n#!!doc;n#performTestMode#0;n#Casque#0" expanded="false" />
             <element signature="n#!!block;n#performTestMode#0;n#Casque#0" expanded="false" />
-            <element signature="e#43862#43967#0" expanded="false" />
-            <element signature="e#43988#44030#0" expanded="false" />
-            <element signature="e#44032#44090#0" expanded="false" />
-            <element signature="e#44108#44163#0" expanded="false" />
-            <element signature="e#44191#44255#0" expanded="false" />
+            <element signature="e#44019#44124#0" expanded="false" />
+            <element signature="e#44145#44187#0" expanded="false" />
+            <element signature="e#44189#44247#0" expanded="false" />
+            <element signature="e#44265#44320#0" expanded="false" />
+            <element signature="e#44348#44412#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6495017">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
